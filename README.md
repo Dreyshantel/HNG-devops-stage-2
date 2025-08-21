@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🎓 SEN Online Peer Learning Forum
 
 A comprehensive Learning Management System (LMS) designed to provide an engaging, interactive environment for students and lecturers. The platform promotes collaboration, knowledge sharing, and continuous assessment while remaining lightweight, scalable, and user-friendly.
@@ -227,3 +228,25 @@ For support and questions:
 **Built with ❤️ for the SEN Online Peer Learning Community**
 
 *Empowering students and lecturers through technology-driven education*
+=======
+# Full-Stack FastAPI and React Template
+
+Welcome to the Full-Stack FastAPI and React template repository. This repository serves as a demo application for interns, showcasing how to set up and run a full-stack application with a FastAPI backend and a ReactJS frontend using ChakraUI.
+
+## Project Structure
+
+The repository is organized into two main directories:
+
+- **frontend**: Contains the ReactJS application.
+- **backend**: Contains the FastAPI application and PostgreSQL database integration.
+
+Each directory has its own README file with detailed instructions specific to that part of the application.
+
+## Getting Started
+
+To get started with this template, please follow the instructions in the respective directories:
+
+- [Frontend README](./frontend/README.md)
+- [Backend README](./backend/README.md)
+
+>>>>>>> e0840988066817cb540a2eb3201a110f78af0942
