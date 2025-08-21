@@ -10,5 +10,6 @@
 .avatar__profile__pic{
     height: 130px !important;
     width: 130px !important;
-    
+    border: 4px solid var(--accent-color);
+    box-shadow: var(--shadow);
 }

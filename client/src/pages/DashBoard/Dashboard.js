@@ -8,26 +8,34 @@ import SettingsApplicationsIcon from "@material-ui/icons/SettingsApplications";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import "./Dashboard.css";
 import styles from "./Dashboard.module.css";
-import { Link } from "react-router-dom";
 import { Col, Container, Row } from "react-bootstrap";
 import {
   Button,
-  Card,
   Divider,
   IconButton,
   Paper,
   Typography,
+  Box,
+  Chip,
+  LinearProgress,
+  Avatar,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemAvatar,
 } from "@material-ui/core";
 import Body4Card from "./Body4Card/Body4Card";
 import AccountCircleOutlinedIcon from "@material-ui/icons/AccountCircleOutlined";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import CourseCard from "./CourseCard/CourseCard";
-import SideCalender from "../../components/Calender/SideCalender";
 import RightSidebar from "./RightSidebar/RightSidebar";
+import AssignmentIcon from "@material-ui/icons/Assignment";
+import BookIcon from "@material-ui/icons/Book";
+import ScheduleIcon from "@material-ui/icons/Schedule";
+import StarIcon from "@material-ui/icons/Star";
 
 import { useDispatch, useSelector } from "react-redux";
-import Spinner_comp from "../../components/Spinner/Spinner_comp";
 import { fetchCourseInfo } from "../../Redux/course/courseAction";
 
 const Dashboard = () => {
@@ -45,7 +53,102 @@ const Dashboard = () => {
     } else {
       dispatch(fetchCourseInfo());
     }
-  }, [pageValue]);
+  }, [pageValue, dispatch, courseInfo.length]);
+
+  // Mock data for dashboard statistics
+  const dashboardStats = [
+    {
+      title: "Enrolled Courses",
+      value: "12",
+      icon: <BookIcon style={{ fontSize: 40, color: 'var(--accent-color)' }} />,
+      color: "var(--accent-color)",
+      progress: 75
+    },
+    {
+      title: "Completed Courses",
+      value: "8",
+      icon: <AssignmentIcon style={{ fontSize: 40, color: 'var(--success-color)' }} />,
+      color: "var(--success-color)",
+      progress: 65
+    },
+    {
+      title: "Current GPA",
+      value: "3.8",
+      icon: <StarIcon style={{ fontSize: 40, color: 'var(--warning-color)' }} />,
+      color: "var(--warning-color)",
+      progress: 85
+    },
+    {
+      title: "Study Hours",
+      value: "156",
+      icon: <ScheduleIcon style={{ fontSize: 40, color: 'var(--primary-color)' }} />,
+      color: "var(--primary-color)",
+      progress: 60
+    }
+  ];
+
+  // Mock recent activities
+  const recentActivities = [
+    {
+      id: 1,
+      type: "Course",
+      action: "Completed",
+      title: "Introduction to Physics",
+      time: "2 hours ago",
+      icon: <AssignmentIcon style={{ color: 'var(--success-color)' }} />
+    },
+    {
+      id: 2,
+      type: "Quiz",
+      action: "Started",
+      title: "Mathematics Quiz 3",
+      time: "4 hours ago",
+      icon: <TouchAppIcon style={{ color: 'var(--accent-color)' }} />
+    },
+    {
+      id: 3,
+      type: "Discussion",
+      action: "Participated in",
+      title: "Physics Forum Discussion",
+      time: "1 day ago",
+      icon: <MessageIcon style={{ color: 'var(--primary-color)' }} />
+    },
+    {
+      id: 4,
+      type: "Assignment",
+      action: "Submitted",
+      title: "Chemistry Lab Report",
+      time: "2 days ago",
+      icon: <BookIcon style={{ color: 'var(--warning-color)' }} />
+    }
+  ];
+
+  // Mock upcoming deadlines
+  const upcomingDeadlines = [
+    {
+      id: 1,
+      title: "Advanced Mathematics Assignment",
+      course: "Calculus II",
+      deadline: "Tomorrow, 11:59 PM",
+      priority: "High"
+    },
+    {
+      id: 2,
+      title: "Physics Lab Report",
+      course: "Mechanics",
+      deadline: "Friday, 5:00 PM",
+      priority: "Medium"
+    },
+    {
+      id: 3,
+      title: "Literature Essay",
+      course: "World Literature",
+      deadline: "Sunday, 11:59 PM",
+      priority: "Low"
+    }
+  ];
+
+
 
   return (
     <div className="dashboard">
@@ -63,14 +166,57 @@ const Dashboard = () => {
       </div>
 
       <div className="main__body__dashboard">
+
+
         <Container>
           <div className={styles.dashboard__header__name}>
-            <h2 className={styles.dashboard__name}>{user && user.userName}</h2>
-            <Link to="/">Dashboard</Link>
+            <h2 className={styles.dashboard__name}>
+              Welcome back, {user && user.userName}! 👋
+            </h2>
+            <Typography variant="body2" style={{ color: 'var(--text-secondary)' }}>
+              Here's what's happening with your learning journey today
+            </Typography>
           </div>
         </Container>
 
-        <div className="d-flex flex-wrap justify-content-md-between justify-content-md-end">
+        {/* Statistics Cards */}
+        <Container fluid className="my-4">
+          <Row>
+            {dashboardStats.map((stat, index) => (
+              <Col key={index} md={3} sm={6} xs={12} className="mb-3">
+                <Paper className="p-3 shadow" style={{ borderRadius: '12px' }}>
+                  <Box display="flex" alignItems="center" justifyContent="space-between">
+                    <Box>
+                      <Typography variant="h4" style={{ fontWeight: 'bold', color: stat.color }}>
+                        {stat.value}
+                      </Typography>
+                      <Typography variant="body2" style={{ color: 'var(--text-secondary)' }}>
+                        {stat.title}
+                      </Typography>
+                    </Box>
+                    {stat.icon}
+                  </Box>
+                  <Box mt={2}>
+                    <LinearProgress 
+                      variant="determinate" 
+                      value={stat.progress} 
+                      style={{ 
+                        height: 6, 
+                        borderRadius: 3,
+                        backgroundColor: 'var(--light-color)',
+                        '& .MuiLinearProgress-bar': {
+                          backgroundColor: stat.color
+                        }
+                      }} 
+                    />
+                  </Box>
+                </Paper>
+              </Col>
+            ))}
+          </Row>
+        </Container>
+
+        <div className="d-flex flex-wrap justify-content-md-between justify-content-md-end mb-4">
           <Body4Card
             link="/messages"
             shortTitle="Communicate"
@@ -94,16 +240,95 @@ const Dashboard = () => {
             title="Grades"
             Icon={TouchAppIcon}
           />
+          <Body4Card
+            link="/quiz"
+            shortTitle="Take Tests"
+            title="Quiz Center"
+            Icon={AssignmentIcon}
+          />
+          <Body4Card
+            link="/student-forum"
+            shortTitle="Share Knowledge"
+            title="Student Forum"
+            Icon={MessageIcon}
+          />
         </div>
 
         <Container fluid className="my-5">
           <Row>
             <Col md={9} xs={12} sm={12}>
+              {/* Recent Activities */}
+              <Paper className="p-4 mb-4 shadow" style={{ borderRadius: '12px' }}>
+                <Typography variant="h6" style={{ color: 'var(--primary-color)', fontWeight: 'bold', marginBottom: '20px' }}>
+                  Recent Activities
+                </Typography>
+                <List>
+                  {recentActivities.map((activity) => (
+                    <ListItem key={activity.id} style={{ borderBottom: '1px solid var(--border-color)' }}>
+                      <ListItemAvatar>
+                        <Avatar style={{ backgroundColor: 'var(--light-color)' }}>
+                          {activity.icon}
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={
+                          <Typography variant="body1" style={{ fontWeight: '500' }}>
+                            {activity.action} <strong>{activity.title}</strong>
+                          </Typography>
+                        }
+                        secondary={
+                          <Typography variant="body2" style={{ color: 'var(--text-secondary)' }}>
+                            {activity.time}
+                          </Typography>
+                        }
+                      />
+                    </ListItem>
+                  ))}
+                </List>
+              </Paper>
+
+              {/* Upcoming Deadlines */}
+              <Paper className="p-4 mb-4 shadow" style={{ borderRadius: '12px' }}>
+                <Typography variant="h6" style={{ color: 'var(--primary-color)', fontWeight: 'bold', marginBottom: '20px' }}>
+                  Upcoming Deadlines
+                </Typography>
+                {upcomingDeadlines.map((deadline) => (
+                  <Box key={deadline.id} mb={2} p={2} style={{ 
+                    border: '1px solid var(--border-color)', 
+                    borderRadius: '8px',
+                    backgroundColor: 'var(--background-color)'
+                  }}>
+                    <Box display="flex" justifyContent="space-between" alignItems="center" mb={1}>
+                      <Typography variant="body1" style={{ fontWeight: '500' }}>
+                        {deadline.title}
+                      </Typography>
+                      <Chip 
+                        label={deadline.priority} 
+                        size="small"
+                        style={{ 
+                          backgroundColor: deadline.priority === 'High' ? 'var(--danger-color)' : 
+                                       deadline.priority === 'Medium' ? 'var(--warning-color)' : 'var(--success-color)',
+                          color: 'white',
+                          fontWeight: 'bold'
+                        }}
+                      />
+                    </Box>
+                    <Typography variant="body2" style={{ color: 'var(--text-secondary)' }}>
+                      Course: {deadline.course}
+                    </Typography>
+                    <Typography variant="body2" style={{ color: 'var(--accent-color)', fontWeight: '500' }}>
+                      Due: {deadline.deadline}
+                    </Typography>
+                  </Box>
+                ))}
+              </Paper>
+
               <Container>
                 <Button
                   className="my-2 mb-5"
                   color="primary"
                   variant="contained"
+                  style={{ backgroundColor: 'var(--accent-color)' }}
                 >
                   Customize This Page
                 </Button>
@@ -118,7 +343,7 @@ const Dashboard = () => {
                         <div className={styles.icon__style}>
                           <IconButton
                             onClick={() => {
-                              if (start==0 || end==0) {
+                              if (start === 0 || end === 0) {
                                 setEnd(courseInfo.length);
                                 setStart(courseInfo.length-1);
                               } else {
@@ -134,7 +359,7 @@ const Dashboard = () => {
                           </IconButton>
                           <IconButton
                             onClick={() => {
-                              if (courseInfo.length == end) {
+                              if (courseInfo.length === end) {
                                 setStart(0);
                                 setEnd(1);
                               } else {
@@ -201,8 +426,7 @@ const Dashboard = () => {
               </Container>
             </Col>
 
-            {/* TODO:Right Sidebar */}
-
+            {/* Right Sidebar */}
             <Col className=" right__sidebar__dashboard " md={3} xs={12} sm={12}>
               <RightSidebar />
             </Col>

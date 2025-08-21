@@ -57,19 +57,14 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if(user && user.role=="Student")
-    {
+    if (user && user.role === "Student") {
       history.push('/')
-    }
-    else if(user && user.role==="Admin")
-    {
+    } else if (user && user.role === "Teacher") {
+      history.push('/teacher-dashboard')
+    } else if (user && user.role === "Admin") {
       history.push('/admin-dashboard')
     }
-    else if(user && user.role==="Teacher")
-    {
-      history.push('/teacher-dashboard')
-    }
-  }, [user])
+  }, [user, history]);
   return (
     <div style={{ fontFamily: "Poppins" }}>
       <Container>
@@ -85,7 +80,7 @@ const Login = () => {
                 className="text-center text-primary mb-3"
                 variant="h5"
               >
-                Login Here
+                SEN Online Peer Learning Forum - Login
               </Typography>
               {loading && <Spinner_comp />}
               {error && error.userExist && (

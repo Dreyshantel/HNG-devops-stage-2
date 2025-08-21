@@ -37,7 +37,7 @@ const NoticeToggle = ({exp}) => {
             toggleTitle.map(({id,title})=>{
               return(
                 <div key={id} className={classes.root}>
-                <Accordion style={{backgroundColor:"#EDEFF7"}}>
+                <Accordion style={{backgroundColor:"var(--light-color)"}}>
                   <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"

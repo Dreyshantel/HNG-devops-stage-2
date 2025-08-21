@@ -12,6 +12,7 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [role, setRole] = useState("Student");
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState(false);
@@ -32,6 +33,7 @@ const Register = () => {
         email,
         password,
         confirmPassword,
+        role,
       }),
     })
       .then((res) => res.json())
@@ -55,7 +57,7 @@ const Register = () => {
   }
 
   useEffect(() => {
-    if(user && user.role=="Student")
+    if(user && user.role==="Student")
     {
       history.push('/')
     }
@@ -67,8 +69,7 @@ const Register = () => {
     {
       history.push('/teacher-dashboard')
     }
-
-  }, [user])
+  }, [user, history])
 
   return (
     <div style={{ fontFamily: "Poppins" }}>
@@ -85,7 +86,7 @@ const Register = () => {
                 className="text-center text-primary mb-3"
                 variant="h5"
               >
-                Register Here
+                SEN Online Peer Learning Forum - Register
               </Typography>
               {loading && <Spinner_comp />}
               {error && error.user && (
@@ -133,6 +134,21 @@ const Register = () => {
                   />
                   <span style={{ color: "red" }}>
                     {error && error.confirmPassword}
+                  </span>
+                </Form.Group>
+                <Form.Group controlId="formBasicRole">
+                  <Form.Label>Role</Form.Label>
+                  <Form.Control
+                    as="select"
+                    onChange={(e) => setRole(e.target.value)}
+                    defaultValue="Student"
+                  >
+                    <option value="Student">Student</option>
+                    <option value="Teacher">Teacher</option>
+                    <option value="Admin">Admin</option>
+                  </Form.Control>
+                  <span style={{ color: "red" }}>
+                    {error && error.role}
                   </span>
                 </Form.Group>
                 <Typography style={{ color: "GrayText" }} variant="subtitle2">

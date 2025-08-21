@@ -1,0 +1,140 @@
+.messages-page {
+  min-height: 100vh;
+  background-color: var(--background-color);
+  padding-bottom: 2rem;
+}
+
+.messages-page .MuiPaper-root {
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.messages-page .MuiPaper-root:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.messages-page .MuiCard-root {
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.messages-page .MuiCard-root:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.chat-area {
+  height: 600px;
+  display: flex;
+  flex-direction: column;
+}
+
+.messages-page .MuiButton-root {
+  border-radius: 8px;
+  text-transform: none;
+  font-weight: 600;
+  padding: 8px 16px;
+}
+
+.messages-page .MuiListItem-root {
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.messages-page .MuiListItem-root:hover {
+  background-color: var(--light-color);
+}
+
+.messages-page .MuiListItem-root.Mui-selected {
+  background-color: var(--accent-color);
+  color: white;
+}
+
+.messages-page .MuiListItem-root.Mui-selected:hover {
+  background-color: var(--accent-color);
+}
+
+.messages-page .MuiChip-root {
+  font-weight: 600;
+}
+
+.messages-page .MuiTabs-root {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.messages-page .MuiTab-root {
+  text-transform: none;
+  font-weight: 600;
+}
+
+.messages-page .MuiTextField-root {
+  margin-bottom: 1rem;
+}
+
+.messages-page .MuiDialog-paper {
+  border-radius: 12px;
+}
+
+.messages-page .MuiAvatar-root {
+  font-weight: 600;
+}
+
+.messages-page .MuiBadge-root .MuiBadge-dot {
+  background-color: var(--success-color);
+}
+
+/* Custom scrollbar for messages */
+.messages-page .chat-area .MuiBox-root::-webkit-scrollbar {
+  width: 6px;
+}
+
+.messages-page .chat-area .MuiBox-root::-webkit-scrollbar-track {
+  background: var(--light-color);
+  border-radius: 3px;
+}
+
+.messages-page .chat-area .MuiBox-root::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 3px;
+}
+
+.messages-page .chat-area .MuiBox-root::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+/* Custom scrollbar for conversations list */
+.messages-page .MuiList-root::-webkit-scrollbar {
+  width: 6px;
+}
+
+.messages-page .MuiList-root::-webkit-scrollbar-track {
+  background: var(--light-color);
+  border-radius: 3px;
+}
+
+.messages-page .MuiList-root::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 3px;
+}
+
+.messages-page .MuiList-root::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+@media (max-width: 768px) {
+  .messages-page .MuiContainer-root {
+    padding: 0 1rem;
+  }
+  
+  .messages-page .MuiGrid-item {
+    margin-bottom: 1rem;
+  }
+  
+  .chat-area {
+    height: 500px;
+  }
+  
+  .messages-page .MuiList-root {
+    max-height: 400px !important;
+  }
+}

@@ -5,5 +5,5 @@
     width: 100vw;
     height: 100vh;
     flex-direction: column;
-    background-color: gray;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
 }

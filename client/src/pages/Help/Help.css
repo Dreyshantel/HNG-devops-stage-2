@@ -1,0 +1,110 @@
+.help-page {
+  min-height: 100vh;
+  background-color: var(--background-color);
+  padding-bottom: 2rem;
+}
+
+.help-page .MuiPaper-root {
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.help-page .MuiPaper-root:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.help-page .MuiCard-root {
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.help-page .MuiCard-root:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.resource-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  text-align: center;
+}
+
+.contact-method-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  text-align: center;
+}
+
+.help-page .MuiButton-root {
+  border-radius: 8px;
+  text-transform: none;
+  font-weight: 600;
+  padding: 12px 24px;
+}
+
+.help-page .MuiAccordion-root {
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+}
+
+.help-page .MuiAccordion-root:before {
+  display: none;
+}
+
+.help-page .MuiAccordionSummary-root {
+  border-radius: 8px;
+  background-color: var(--light-color);
+}
+
+.help-page .MuiAccordionSummary-root:hover {
+  background-color: var(--border-color);
+}
+
+.help-page .MuiDivider-root {
+  margin: 1rem 0;
+}
+
+.help-page .MuiChip-root {
+  font-weight: 600;
+}
+
+.help-page .MuiListItem-root {
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+}
+
+.help-page .MuiListItem-root:hover {
+  background-color: var(--light-color);
+}
+
+.help-page .MuiDialog-paper {
+  border-radius: 12px;
+}
+
+.help-page .MuiTextField-root {
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+  .help-page .MuiContainer-root {
+    padding: 0 1rem;
+  }
+  
+  .help-page .MuiGrid-item {
+    margin-bottom: 1rem;
+  }
+  
+  .resource-card,
+  .contact-method-card {
+    padding: 0.5rem;
+  }
+}

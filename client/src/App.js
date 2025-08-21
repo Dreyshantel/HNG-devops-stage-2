@@ -29,6 +29,10 @@ import AllCourses from "./pages/All-Courses/AllCourses";
 import NotFound from "./pages/404NotFoud/NotFound";
 import Libray from "./pages/Library/Libray";
 import Ucam from "./pages/Ucam/Ucam";
+import Quiz from "./pages/Quiz/Quiz";
+import StudentForum from "./pages/StudentForum/StudentForum";
+import Security from "./pages/Security/Security";
+import Help from "./pages/Help/Help";
 
 const Routing = () => {
   const history = useHistory();
@@ -53,6 +57,12 @@ const Routing = () => {
       <StudentRoute exact path="/ucam">
         <Ucam />
       </StudentRoute>
+      <StudentRoute exact path="/quiz">
+        <Quiz />
+      </StudentRoute>
+      <StudentRoute exact path="/student-forum">
+        <StudentForum />
+      </StudentRoute>
       <TeacherRoute exact path="/teacher-dashboard">
         <TeacherDashboard />
       </TeacherRoute>
@@ -76,6 +86,12 @@ const Routing = () => {
       </Route>
       <Route exact path="/settings">
         <Settings />
+      </Route>
+      <Route exact path="/security">
+        <Security />
+      </Route>
+      <Route exact path="/help">
+        <Help />
       </Route>
       <Route exact path="/grades">
         <Grades />

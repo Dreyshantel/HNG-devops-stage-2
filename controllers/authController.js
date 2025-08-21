@@ -6,7 +6,7 @@ const { SECRET_KEY } = require("../config/keys");
 
 module.exports.register__controller = async (req, res, next) => {
   try {
-    const { userName, email, password, confirmPassword } = req.body;
+    const { userName, email, password, confirmPassword, role } = req.body;
 
     const userInfo = await UserModel.findOne({ email });
 
@@ -15,11 +15,24 @@ module.exports.register__controller = async (req, res, next) => {
         errors: { user: "User already exists" },
       });
     }
+    
+    if (password !== confirmPassword) {
+      return res.status(401).json({
+        errors: { confirmPassword: "Passwords do not match" },
+      });
+    }
+    if (password.length < 6) {
+      return res.status(401).json({
+        errors: { password: "Password must be at least 6 characters long" },
+      });
+    }
+    
     const hash = await bcrypt.hash(password, 10);
     const user = new UserModel({
       userName,
       email,
       password: hash,
+      role: role || "Student",
     });
 
     user

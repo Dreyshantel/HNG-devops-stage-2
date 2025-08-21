@@ -1,6 +1,6 @@
 const { body, validationResult } = require("express-validator");
 
-module.exports = [
+const validationRules = [
   body("userName")
     .not()
     .isEmpty()
@@ -31,14 +31,16 @@ module.exports = [
       return true
   })
 
-]
+];
 
-
-module.exports.register_validator=(req,res,next)=>{
+const register_validator = (req,res,next)=>{
     const errors = validationResult(req).formatWith(errors=>errors.msg)
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.mapped() });
         
       }
       next();
-}
+};
+
+module.exports = validationRules;
+module.exports.register_validator = register_validator;

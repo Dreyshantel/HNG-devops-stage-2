@@ -2,15 +2,15 @@
 
 .header{
     display: flex;
-    background-color: white;
+    background-color: var(--card-background);
     align-items: center;
-    box-shadow: 0 0 10px 1px rgba(128, 128, 128, 0.185);
+    box-shadow: var(--shadow);
     position: sticky;
     top: 0%;
     padding: 10px 10px;
     font-family: 'Poppins', sans-serif;
     z-index: 100;
-    
+    border-bottom: 1px solid var(--border-color);
 }
 
 .admin__toggle__menu{
@@ -56,9 +56,10 @@
     
 }
 .middle__header>ul>li>a:hover{
-    border-bottom: 3px solid green;
+    border-bottom: 3px solid var(--accent-color);
     text-decoration: none;
     font-family: 'Roboto', sans-serif;
+    color: var(--accent-color);
 }
 .right__header{
     display: flex;

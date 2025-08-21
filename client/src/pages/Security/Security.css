@@ -1,0 +1,61 @@
+.security-page {
+  min-height: 100vh;
+  background-color: var(--background-color);
+  padding-bottom: 2rem;
+}
+
+.security-page .MuiPaper-root {
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.security-page .MuiPaper-root:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.security-page .MuiCard-root {
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.security-page .MuiCard-root:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.security-page .MuiButton-root {
+  border-radius: 8px;
+  text-transform: none;
+  font-weight: 600;
+  padding: 12px 24px;
+}
+
+.security-page .MuiTextField-root {
+  margin-bottom: 1rem;
+}
+
+.security-page .MuiFormControlLabel-root {
+  margin-bottom: 0.5rem;
+}
+
+.security-page .MuiSwitch-root {
+  margin-right: 8px;
+}
+
+.security-page .MuiDivider-root {
+  margin: 1rem 0;
+}
+
+.security-page .MuiAlert-root {
+  border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+  .security-page .MuiContainer-root {
+    padding: 0 1rem;
+  }
+  
+  .security-page .MuiGrid-item {
+    margin-bottom: 1rem;
+  }
+}

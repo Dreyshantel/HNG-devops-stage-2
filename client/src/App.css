@@ -3,13 +3,63 @@
 font-family: 'Poppins', sans-serif;
 font-family: 'Roboto', sans-serif; */
 
+:root {
+  /* Professional Color Palette */
+  --primary-color: #2c3e50;      /* Dark Blue-Gray */
+  --secondary-color: #34495e;    /* Lighter Blue-Gray */
+  --accent-color: #3498db;       /* Professional Blue */
+  --success-color: #27ae60;      /* Professional Green */
+  --warning-color: #f39c12;      /* Professional Orange */
+  --danger-color: #e74c3c;       /* Professional Red */
+  --light-color: #ecf0f1;        /* Light Gray */
+  --dark-color: #2c3e50;         /* Dark Blue-Gray */
+  --text-primary: #2c3e50;       /* Primary Text Color */
+  --text-secondary: #7f8c8d;     /* Secondary Text Color */
+  --border-color: #bdc3c7;       /* Border Color */
+  --background-color: #f8f9fa;   /* Background Color */
+  --card-background: #ffffff;    /* Card Background */
+  --shadow: 0 2px 10px rgba(44, 62, 80, 0.1); /* Subtle Shadow */
+}
+
 *{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-primary);
+  font-family: 'Poppins', sans-serif;
 }
 
 h1,h2,h3,h4,h5,h6{
   font-family: 'Poppins', sans-serif;
+  color: var(--text-primary);
+}
+
+/* Professional Button Styles */
+.btn-primary {
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+  color: white !important;
+}
+
+.btn-primary:hover {
+  background-color: var(--secondary-color) !important;
+  border-color: var(--secondary-color) !important;
+}
+
+/* Professional Card Styles */
+.card {
+  background-color: var(--card-background);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow);
+  border-radius: 8px;
+}
+
+/* Professional Form Styles */
+.form-control:focus {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
 }

@@ -8,7 +8,7 @@ const NoticeToggleRow = ({Icon,title,description}) => {
         <>
         <div className={Styles.NoticeToggleRow}>
             <div className={Styles.title__style}>
-                <Icon className="mr-2" style={{color:"#CD5C5C"}} />
+                <Icon className="mr-2" style={{color:"var(--accent-color)"}} />
                 <Typography variant='subtitle1'>
                     {title}
                 </Typography>

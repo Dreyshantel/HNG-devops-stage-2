@@ -1,0 +1,98 @@
+.grades-page {
+  min-height: 100vh;
+  background-color: var(--background-color);
+  padding-bottom: 2rem;
+}
+
+.grades-page .MuiPaper-root {
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.grades-page .MuiPaper-root:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.grades-page .MuiCard-root {
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.grades-page .MuiCard-root:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.stat-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  text-align: center;
+}
+
+.grades-page .MuiButton-root {
+  border-radius: 8px;
+  text-transform: none;
+  font-weight: 600;
+  padding: 8px 16px;
+}
+
+.grades-page .MuiTable-root {
+  border-radius: 8px;
+}
+
+.grades-page .MuiTableHead-root .MuiTableCell-root {
+  background-color: var(--light-color);
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.grades-page .MuiTableRow-root:hover {
+  background-color: var(--light-color);
+}
+
+.grades-page .MuiChip-root {
+  font-weight: 600;
+}
+
+.grades-page .MuiLinearProgress-root {
+  border-radius: 4px;
+}
+
+.grades-page .MuiTabs-root {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.grades-page .MuiTab-root {
+  text-transform: none;
+  font-weight: 600;
+}
+
+.grades-page .MuiFormControl-root {
+  margin-bottom: 1rem;
+}
+
+.grades-page .MuiDialog-paper {
+  border-radius: 12px;
+}
+
+@media (max-width: 768px) {
+  .grades-page .MuiContainer-root {
+    padding: 0 1rem;
+  }
+  
+  .grades-page .MuiGrid-item {
+    margin-bottom: 1rem;
+  }
+  
+  .stat-card {
+    padding: 0.5rem;
+  }
+  
+  .grades-page .MuiTableContainer-root {
+    overflow-x: auto;
+  }
+}

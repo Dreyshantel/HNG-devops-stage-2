@@ -2,11 +2,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #E1E6EF;
-    
+    background-color: var(--light-color);
+    border: 1px solid var(--border-color);
     border-radius: 10px;
     padding: 10px 20px;
     margin: 50px 0px;
+    box-shadow: var(--shadow);
 }
 .dashboard__header__name>h2{
     margin-top: 5px;
@@ -23,15 +24,16 @@
 .dropdown__style{
     width: 60px;
     height: 40px;
-    background-color: #6C757D;
+    background-color: var(--secondary-color);
     color: white;
     border-radius: 7px;
     border: none;
+    transition: all 0.3s ease-in;
 }
 
 .dropdown__style:hover{
-    background-color: white;
-    color: black;
-    border: 1px solid gray;
-    transition: all 0.3s ease-in;
+    background-color: var(--accent-color);
+    color: white;
+    border: 1px solid var(--accent-color);
+    transform: translateY(-2px);
 }

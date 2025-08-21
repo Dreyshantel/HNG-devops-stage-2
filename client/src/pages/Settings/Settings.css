@@ -1,0 +1,159 @@
+.settings-page {
+  min-height: 100vh;
+  background-color: var(--background-color);
+  padding-bottom: 2rem;
+}
+
+.settings-page .MuiPaper-root {
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.settings-page .MuiPaper-root:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.settings-page .MuiCard-root {
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+.settings-page .MuiCard-root:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.settings-page .MuiButton-root {
+  border-radius: 8px;
+  text-transform: none;
+  font-weight: 600;
+  padding: 12px 24px;
+  transition: all 0.3s ease;
+}
+
+.settings-page .MuiButton-root:hover {
+  transform: translateY(-1px);
+}
+
+.settings-page .MuiFormControlLabel-root {
+  margin-bottom: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.settings-page .MuiFormControlLabel-root:hover {
+  background-color: var(--light-color);
+  border-radius: 4px;
+  padding: 4px;
+}
+
+.settings-page .MuiSwitch-root {
+  margin-right: 8px;
+}
+
+.settings-page .MuiSelect-root {
+  border-radius: 8px;
+}
+
+.settings-page .MuiSlider-root {
+  margin: 16px 0;
+}
+
+.settings-page .MuiSlider-mark {
+  background-color: var(--accent-color);
+}
+
+.settings-page .MuiSlider-markLabel {
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.settings-page .MuiSlider-valueLabel {
+  background-color: var(--accent-color);
+  color: white;
+}
+
+.settings-page .MuiDivider-root {
+  margin: 1rem 0;
+}
+
+.settings-page .MuiChip-root {
+  font-weight: 600;
+}
+
+.settings-page .MuiTextField-root {
+  margin-bottom: 1rem;
+}
+
+.settings-page .MuiFormControl-root {
+  margin-bottom: 1rem;
+}
+
+.settings-page .MuiInputLabel-root {
+  color: var(--text-secondary);
+}
+
+.settings-page .MuiInputBase-root {
+  border-radius: 8px;
+}
+
+.settings-page .MuiInputBase-root:hover {
+  border-color: var(--accent-color);
+}
+
+.settings-page .MuiInputBase-root.Mui-focused {
+  border-color: var(--accent-color);
+}
+
+.settings-page .MuiInputBase-root.Mui-focused .MuiInputLabel-root {
+  color: var(--accent-color);
+}
+
+.settings-page .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: var(--accent-color);
+}
+
+.settings-page .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+  border-color: var(--accent-color);
+}
+
+.settings-page .MuiSelect-select:focus {
+  background-color: transparent;
+}
+
+.settings-page .MuiMenuItem-root {
+  border-radius: 4px;
+  margin: 2px 8px;
+}
+
+.settings-page .MuiMenuItem-root:hover {
+  background-color: var(--light-color);
+}
+
+.settings-page .MuiMenuItem-root.Mui-selected {
+  background-color: var(--accent-color);
+  color: white;
+}
+
+.settings-page .MuiMenuItem-root.Mui-selected:hover {
+  background-color: var(--accent-color);
+}
+
+@media (max-width: 768px) {
+  .settings-page .MuiContainer-root {
+    padding: 0 1rem;
+  }
+  
+  .settings-page .MuiGrid-item {
+    margin-bottom: 1rem;
+  }
+  
+  .settings-page .MuiButton-root {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+  
+  .settings-page .MuiCard-root {
+    margin-bottom: 1rem;
+  }
+}

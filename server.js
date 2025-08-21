@@ -4,7 +4,11 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const { MONGO_URI } = require("./config/keys");
-require('dotenv').config()
+require('dotenv').config();
+
+// Use environment variables if available, otherwise fall back to config
+const MONGO_URI_FINAL = process.env.MONGO_URI || MONGO_URI;
+const SECRET_KEY = process.env.SECRET_KEY || require("./config/keys").SECRET_KEY;
 
 // TODO:middleware
 
@@ -36,7 +40,7 @@ if (process.env.NODE_ENV == 'production') {
 
 const PORT = process.env.PORT || 5000;
 mongoose
-  .connect(MONGO_URI, {
+  .connect(MONGO_URI_FINAL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })

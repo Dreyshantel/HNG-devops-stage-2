@@ -6,9 +6,9 @@
 
 .sidebar__dashboard__row>a{
     text-decoration: none;
-    color: gray;
+    color: var(--text-secondary);
     display: flex;
-   
+    transition: all 0.3s ease-in;
 }
 
 .sidebar__dashboard__row>a>.MuiSvgIcon-root{
@@ -17,4 +17,9 @@
 
 .adminSidebarStyle>span{
     color: white !important;
+}
+
+.sidebar__dashboard__row>a:hover {
+    color: var(--accent-color);
+    transform: translateX(5px);
 }
