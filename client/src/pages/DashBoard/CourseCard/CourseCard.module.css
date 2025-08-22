@@ -6,6 +6,10 @@
     background-color: white;
     cursor: pointer;
     padding: 20px 0px;
+    transition: all 0.3s ease;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    position: relative;
 }
 
 
@@ -61,8 +65,40 @@
     color: gray;
 }
 
+.course__content {
+    transition: all 0.3s ease;
+}
+
+.course__content:hover {
+    transform: scale(1.02);
+}
+
+.course__content button {
+    transition: all 0.3s ease;
+}
+
+.course__content button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* Ensure Link styling doesn't interfere */
+.course__Card a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+}
+
 .course__Card:hover{
-    background-color: transparent;
+    background-color: #f8f9fa;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    border: 2px solid var(--accent-color, #1976d2);
 }
 
 @media screen and (max-width:768px) {

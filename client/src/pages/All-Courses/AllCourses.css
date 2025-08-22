@@ -1,0 +1,104 @@
+.all-courses-page {
+  background-color: var(--background-color);
+  min-height: 100vh;
+  padding: 20px 0;
+}
+
+.course-card {
+  transition: all 0.3s ease-in-out;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow);
+}
+
+.course-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(44, 62, 80, 0.15);
+  border-color: var(--accent-color);
+}
+
+.course-card .MuiCardMedia-root {
+  transition: all 0.3s ease-in-out;
+}
+
+.course-card:hover .MuiCardMedia-root {
+  transform: scale(1.05);
+}
+
+.course-card .MuiButton-root {
+  transition: all 0.3s ease-in-out;
+}
+
+.course-card:hover .MuiButton-root {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
+}
+
+/* Search and filter styling */
+.all-courses-page .MuiTextField-root .MuiOutlinedInput-root {
+  border-radius: 12px;
+}
+
+.all-courses-page .MuiFormControl-root .MuiOutlinedInput-root {
+  border-radius: 8px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .all-courses-page {
+    padding: 10px 0;
+  }
+  
+  .course-card {
+    margin-bottom: 20px;
+  }
+}
+
+/* Loading animation */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+}
+
+/* Error styling */
+.error-alert {
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+/* Header gradient animation */
+.header-gradient {
+  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  background-size: 200% 200%;
+  animation: gradientShift 3s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Filter chips styling */
+.filter-chip {
+  margin: 4px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+/* Course count badge */
+.course-count-badge {
+  background: linear-gradient(45deg, var(--accent-color), var(--primary-color));
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+}

@@ -26,19 +26,28 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  TextField
+  TextField,
+  Avatar,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemAvatar
 } from '@material-ui/core';
 import {
   Assessment,
   TrendingUp,
   School,
   Assignment,
-  Quiz,
-  Grade,
+  QuestionAnswer,
+  Code,
   FilterList,
   GetApp,
   Print,
-  Visibility
+  Visibility,
+  CheckCircle,
+  Schedule,
+  Star,
+  EmojiEvents
 } from '@material-ui/icons';
 import CommonHeader from '../../components/Common/CommonHeader';
 import './Grades.css';
@@ -47,90 +56,101 @@ const Grades = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [selectedSemester, setSelectedSemester] = useState('current');
   const [selectedCourse, setSelectedCourse] = useState('all');
-  const [showGradeDetails, setShowGradeDetails] = useState(false);
-  const [selectedGrade, setSelectedGrade] = useState(null);
+  const [showPerformanceDetails, setShowPerformanceDetails] = useState(false);
+  const [selectedPerformance, setSelectedPerformance] = useState(null);
 
-  // Mock data for grades
+  // Software Engineering focused semesters
   const semesters = [
-    { value: 'current', label: 'Current Semester (Spring 2024)' },
-    { value: 'fall2023', label: 'Fall 2023' },
-    { value: 'spring2023', label: 'Spring 2023' }
+    { value: 'current', label: 'Current Semester (Second Semester 2024)' },
+    { value: 'second2023', label: 'Second Semester 2023' },
+    { value: 'first2023', label: 'First Semester 2023' }
   ];
 
+  // Software Engineering courses
   const courses = [
     { value: 'all', label: 'All Courses' },
-    { value: 'math101', label: 'Mathematics 101' },
-    { value: 'physics101', label: 'Physics 101' },
-    { value: 'chemistry101', label: 'Chemistry 101' },
-    { value: 'english101', label: 'English 101' }
+    { value: 'se101', label: 'Introduction to Software Engineering' },
+    { value: 'ds101', label: 'Data Structures & Algorithms' },
+    { value: 'db101', label: 'Database Systems' },
+    { value: 'web101', label: 'Web Development' },
+    { value: 'ai101', label: 'Artificial Intelligence' }
   ];
 
-  const gradeData = [
+  // Performance data focused on software engineering skills
+  const performanceData = [
     {
       id: 1,
-      courseCode: 'MATH101',
-      courseName: 'Mathematics Fundamentals',
+      courseCode: 'SE101',
+      courseName: 'Introduction to Software Engineering',
       instructor: 'Dr. Smith',
       credits: 3,
       assignments: [
-        { name: 'Quiz 1', score: 85, maxScore: 100, weight: 15, grade: 'B' },
-        { name: 'Midterm Exam', score: 78, maxScore: 100, weight: 25, grade: 'C+' },
-        { name: 'Final Exam', score: 92, maxScore: 100, weight: 35, grade: 'A-' },
-        { name: 'Homework', score: 88, maxScore: 100, weight: 25, grade: 'B+' }
+        { name: 'Software Design Quiz', score: 85, maxScore: 100, weight: 15, type: 'Quiz' },
+        { name: 'Requirements Analysis', score: 78, maxScore: 100, weight: 25, type: 'Assignment' },
+        { name: 'Final Project', score: 92, maxScore: 100, weight: 35, type: 'Project' },
+        { name: 'Code Review', score: 88, maxScore: 100, weight: 25, type: 'Assignment' }
       ],
       finalGrade: 'B+',
-      gpa: 3.3,
-      semester: 'current'
+      performanceScore: 85.8,
+      semester: 'current',
+      skills: ['Software Design', 'Requirements Analysis', 'Project Management', 'Code Quality']
     },
     {
       id: 2,
-      courseCode: 'PHYS101',
-      courseName: 'Introduction to Physics',
+      courseCode: 'DS101',
+      courseName: 'Data Structures & Algorithms',
       instructor: 'Dr. Johnson',
       credits: 4,
       assignments: [
-        { name: 'Lab Reports', score: 90, maxScore: 100, weight: 20, grade: 'A-' },
-        { name: 'Midterm Exam', score: 85, maxScore: 100, weight: 30, grade: 'B' },
-        { name: 'Final Exam', score: 88, maxScore: 100, weight: 35, grade: 'B+' },
-        { name: 'Participation', score: 95, maxScore: 100, weight: 15, grade: 'A' }
+        { name: 'Algorithm Implementation', score: 90, maxScore: 100, weight: 20, type: 'Assignment' },
+        { name: 'Data Structure Quiz', score: 85, maxScore: 100, weight: 30, type: 'Quiz' },
+        { name: 'Final Exam', score: 88, maxScore: 100, weight: 35, type: 'Exam' },
+        { name: 'Coding Challenges', score: 95, maxScore: 100, weight: 15, type: 'Assignment' }
       ],
       finalGrade: 'B+',
-      gpa: 3.3,
-      semester: 'current'
+      performanceScore: 89.5,
+      semester: 'current',
+      skills: ['Algorithm Design', 'Data Structures', 'Problem Solving', 'Coding']
     },
     {
       id: 3,
-      courseCode: 'CHEM101',
-      courseName: 'General Chemistry',
+      courseCode: 'DB101',
+      courseName: 'Database Systems',
       instructor: 'Dr. Williams',
       credits: 4,
       assignments: [
-        { name: 'Lab Work', score: 88, maxScore: 100, weight: 25, grade: 'B+' },
-        { name: 'Midterm Exam', score: 82, maxScore: 100, weight: 30, grade: 'B-' },
-        { name: 'Final Exam', score: 85, maxScore: 100, weight: 35, grade: 'B' },
-        { name: 'Quizzes', score: 90, maxScore: 100, weight: 10, grade: 'A-' }
+        { name: 'Database Design', score: 88, maxScore: 100, weight: 25, type: 'Project' },
+        { name: 'SQL Quiz', score: 82, maxScore: 100, weight: 30, type: 'Quiz' },
+        { name: 'Final Project', score: 85, maxScore: 100, weight: 35, type: 'Project' },
+        { name: 'Database Optimization', score: 90, maxScore: 100, weight: 10, type: 'Assignment' }
       ],
       finalGrade: 'B',
-      gpa: 3.0,
-      semester: 'current'
+      performanceScore: 86.3,
+      semester: 'current',
+      skills: ['Database Design', 'SQL', 'Data Modeling', 'Performance Optimization']
     }
   ];
 
+  // Performance statistics - no GPA
   const overallStats = {
     totalCredits: 11,
-    currentGPA: 3.2,
+    averagePerformance: 87.2,
     totalCourses: 3,
     completedCourses: 0,
-    inProgressCourses: 3
+    inProgressCourses: 3,
+    totalAssignments: 12,
+    completedAssignments: 12,
+    averageQuizScore: 84.0,
+    averageProjectScore: 88.3
   };
 
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
   };
 
-  const handleGradeClick = (grade) => {
-    setSelectedGrade(grade);
-    setShowGradeDetails(true);
+  const handlePerformanceClick = (performance) => {
+    setSelectedPerformance(performance);
+    setShowPerformanceDetails(true);
   };
 
   const getGradeColor = (grade) => {
@@ -141,15 +161,22 @@ const Grades = () => {
     return 'var(--text-secondary)';
   };
 
-  const filteredGrades = gradeData.filter(grade => {
-    const matchesSemester = selectedSemester === 'all' || grade.semester === selectedSemester;
-    const matchesCourse = selectedCourse === 'all' || grade.courseCode.toLowerCase().includes(selectedCourse.toLowerCase());
+  const getPerformanceColor = (score) => {
+    if (score >= 90) return 'var(--success-color)';
+    if (score >= 80) return 'var(--accent-color)';
+    if (score >= 70) return 'var(--warning-color)';
+    return 'var(--danger-color)';
+  };
+
+  const filteredPerformance = performanceData.filter(performance => {
+    const matchesSemester = selectedSemester === 'all' || performance.semester === selectedSemester;
+    const matchesCourse = selectedCourse === 'all' || performance.courseCode.toLowerCase().includes(selectedCourse.toLowerCase());
     return matchesSemester && matchesCourse;
   });
 
   return (
     <div className="grades-page">
-      <CommonHeader title="Grades & Performance" />
+      <CommonHeader title="Performance & Learning Analytics" />
       
       <Container maxWidth="lg" className="mt-4">
         {/* Header Section */}
@@ -159,24 +186,24 @@ const Grades = () => {
           borderRadius: '16px'
         }}>
           <Typography variant="h4" className="mb-2">
-            📊 Academic Performance Dashboard
+            📊 Learning Performance Dashboard
           </Typography>
           <Typography variant="body1">
-            Track your progress, view detailed grades, and monitor your academic achievements
+            Track your software engineering skills development, project performance, and learning progress
           </Typography>
         </Paper>
 
-        {/* Overall Statistics */}
+        {/* Overall Performance Statistics */}
         <Grid container spacing={3} className="mb-4">
           <Grid item xs={12} sm={6} md={3}>
             <Card className="stat-card">
               <CardContent className="text-center">
-                <School style={{ fontSize: 40, color: 'var(--primary-color)' }} />
-                <Typography variant="h4" style={{ color: 'var(--primary-color)', fontWeight: 'bold' }}>
-                  {overallStats.currentGPA}
+                <TrendingUp style={{ fontSize: 40, color: 'var(--success-color)' }} />
+                <Typography variant="h4" style={{ color: 'var(--success-color)', fontWeight: 'bold' }}>
+                  {overallStats.averagePerformance}%
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
-                  Current GPA
+                  Average Performance
                 </Typography>
               </CardContent>
             </Card>
@@ -199,12 +226,12 @@ const Grades = () => {
           <Grid item xs={12} sm={6} md={3}>
             <Card className="stat-card">
               <CardContent className="text-center">
-                <TrendingUp style={{ fontSize: 40, color: 'var(--success-color)' }} />
-                <Typography variant="h4" style={{ color: 'var(--success-color)', fontWeight: 'bold' }}>
-                  {overallStats.totalCredits}
+                <QuestionAnswer style={{ fontSize: 40, color: 'var(--warning-color)' }} />
+                <Typography variant="h4" style={{ color: 'var(--warning-color)', fontWeight: 'bold' }}>
+                  {overallStats.averageQuizScore}%
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
-                  Total Credits
+                  Quiz Average
                 </Typography>
               </CardContent>
             </Card>
@@ -213,12 +240,12 @@ const Grades = () => {
           <Grid item xs={12} sm={6} md={3}>
             <Card className="stat-card">
               <CardContent className="text-center">
-                <Grade style={{ fontSize: 40, color: 'var(--warning-color)' }} />
-                <Typography variant="h4" style={{ color: 'var(--warning-color)', fontWeight: 'bold' }}>
-                  {overallStats.completedCourses}
+                <Code style={{ fontSize: 40, color: 'var(--primary-color)' }} />
+                <Typography variant="h4" style={{ color: 'var(--primary-color)', fontWeight: 'bold' }}>
+                  {overallStats.averageProjectScore}%
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
-                  Completed
+                  Project Average
                 </Typography>
               </CardContent>
             </Card>
@@ -226,14 +253,15 @@ const Grades = () => {
         </Grid>
 
         {/* Filters */}
-        <Paper className="p-3 mb-4">
+        <Paper className="p-3 mb-4" style={{ borderRadius: '12px' }}>
           <Grid container spacing={2} alignItems="center">
-            <Grid item xs={12} md={4}>
-              <FormControl fullWidth>
+            <Grid item xs={12} sm={6} md={3}>
+              <FormControl fullWidth variant="outlined" size="small">
                 <InputLabel>Semester</InputLabel>
                 <Select
                   value={selectedSemester}
                   onChange={(e) => setSelectedSemester(e.target.value)}
+                  label="Semester"
                 >
                   {semesters.map((semester) => (
                     <MenuItem key={semester.value} value={semester.value}>
@@ -243,12 +271,13 @@ const Grades = () => {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12} md={4}>
-              <FormControl fullWidth>
+            <Grid item xs={12} sm={6} md={3}>
+              <FormControl fullWidth variant="outlined" size="small">
                 <InputLabel>Course</InputLabel>
                 <Select
                   value={selectedCourse}
                   onChange={(e) => setSelectedCourse(e.target.value)}
+                  label="Course"
                 >
                   {courses.map((course) => (
                     <MenuItem key={course.value} value={course.value}>
@@ -258,29 +287,29 @@ const Grades = () => {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12} md={4}>
-              <Box display="flex" gap={1}>
+            <Grid item xs={12} sm={6} md={3}>
                 <Button
                   variant="outlined"
-                  startIcon={<GetApp />}
+                startIcon={<FilterList />}
                   style={{ borderColor: 'var(--accent-color)', color: 'var(--accent-color)' }}
                 >
-                  Export
+                Apply Filters
                 </Button>
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
                 <Button
-                  variant="outlined"
-                  startIcon={<Print />}
-                  style={{ borderColor: 'var(--primary-color)', color: 'var(--primary-color)' }}
-                >
-                  Print
+                variant="contained"
+                startIcon={<GetApp />}
+                style={{ backgroundColor: 'var(--accent-color)' }}
+              >
+                Export Report
                 </Button>
-              </Box>
             </Grid>
           </Grid>
         </Paper>
 
-        {/* Tabs */}
-        <Paper className="mb-4">
+        {/* Performance Tabs */}
+        <Paper className="mb-4" style={{ borderRadius: '12px' }}>
           <Tabs
             value={activeTab}
             onChange={handleTabChange}
@@ -288,63 +317,79 @@ const Grades = () => {
             textColor="primary"
             centered
           >
-            <Tab label="Course Grades" />
-            <Tab label="Performance Trends" />
-            <Tab label="Grade History" />
+            <Tab label="Course Performance" />
+            <Tab label="Skill Analysis" />
+            <Tab label="Progress Tracking" />
           </Tabs>
         </Paper>
 
         {/* Tab Content */}
         {activeTab === 0 && (
-          <Paper className="p-4">
+          <Paper className="p-4" style={{ borderRadius: '12px' }}>
             <Typography variant="h6" className="mb-3" style={{ color: 'var(--primary-color)' }}>
-              <Assessment style={{ marginRight: '8px', verticalAlign: 'middle' }} />
-              Course Grades
+              Course Performance Overview
             </Typography>
-            
             <TableContainer>
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell>Course</TableCell>
-                    <TableCell>Instructor</TableCell>
-                    <TableCell>Credits</TableCell>
-                    <TableCell>Final Grade</TableCell>
-                    <TableCell>GPA</TableCell>
-                    <TableCell>Actions</TableCell>
+                    <TableCell style={{ fontWeight: 'bold' }}>Course</TableCell>
+                    <TableCell style={{ fontWeight: 'bold' }}>Performance Score</TableCell>
+                    <TableCell style={{ fontWeight: 'bold' }}>Final Grade</TableCell>
+                    <TableCell style={{ fontWeight: 'bold' }}>Credits</TableCell>
+                    <TableCell style={{ fontWeight: 'bold' }}>Actions</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {filteredGrades.map((grade) => (
-                    <TableRow key={grade.id} hover>
+                  {filteredPerformance.map((performance) => (
+                    <TableRow key={performance.id} hover>
                       <TableCell>
                         <Box>
-                          <Typography variant="subtitle2" style={{ fontWeight: 'bold' }}>
-                            {grade.courseCode}
+                          <Typography variant="body1" style={{ fontWeight: '500' }}>
+                            {performance.courseCode} - {performance.courseName}
                           </Typography>
                           <Typography variant="body2" color="textSecondary">
-                            {grade.courseName}
+                            {performance.instructor}
                           </Typography>
                         </Box>
                       </TableCell>
-                      <TableCell>{grade.instructor}</TableCell>
-                      <TableCell>{grade.credits}</TableCell>
+                      <TableCell>
+                        <Box display="flex" alignItems="center">
+                          <Typography variant="body1" style={{ 
+                            fontWeight: 'bold',
+                            color: getPerformanceColor(performance.performanceScore),
+                            marginRight: '8px'
+                          }}>
+                            {performance.performanceScore}%
+                          </Typography>
+                          <LinearProgress
+                            variant="determinate"
+                            value={performance.performanceScore}
+                            style={{
+                              width: 60,
+                              height: 8,
+                              borderRadius: 4,
+                              backgroundColor: 'var(--light-color)'
+                            }}
+                          />
+                        </Box>
+                      </TableCell>
                       <TableCell>
                         <Chip
-                          label={grade.finalGrade}
+                          label={performance.finalGrade}
                           style={{ 
-                            backgroundColor: getGradeColor(grade.finalGrade),
+                            backgroundColor: getGradeColor(performance.finalGrade),
                             color: 'white',
                             fontWeight: 'bold'
                           }}
                         />
                       </TableCell>
-                      <TableCell>{grade.gpa}</TableCell>
+                      <TableCell>{performance.credits}</TableCell>
                       <TableCell>
                         <Button
                           size="small"
                           startIcon={<Visibility />}
-                          onClick={() => handleGradeClick(grade)}
+                          onClick={() => handlePerformanceClick(performance)}
                           style={{ color: 'var(--accent-color)' }}
                         >
                           View Details
@@ -359,47 +404,48 @@ const Grades = () => {
         )}
 
         {activeTab === 1 && (
-          <Paper className="p-4">
+          <Paper className="p-4" style={{ borderRadius: '12px' }}>
             <Typography variant="h6" className="mb-3" style={{ color: 'var(--primary-color)' }}>
-              <TrendingUp style={{ marginRight: '8px', verticalAlign: 'middle' }} />
-              Performance Trends
+              Skills Development Analysis
             </Typography>
-            
             <Grid container spacing={3}>
-              {filteredGrades.map((grade) => (
-                <Grid item xs={12} md={6} key={grade.id}>
-                  <Card>
+              {filteredPerformance.map((performance) => (
+                <Grid item xs={12} md={6} key={performance.id}>
+                  <Card style={{ borderRadius: '12px' }}>
                     <CardContent>
-                      <Typography variant="h6" className="mb-2">
-                        {grade.courseCode} - {grade.courseName}
+                      <Typography variant="h6" className="mb-2" style={{ color: 'var(--primary-color)' }}>
+                        {performance.courseName}
                       </Typography>
-                      
-                      {grade.assignments.map((assignment, index) => (
-                        <Box key={index} mb={2}>
-                          <Box display="flex" justifyContent="space-between" alignItems="center" mb={1}>
-                            <Typography variant="body2">
-                              {assignment.name}
+                      <Box mb={2}>
+                        <Typography variant="body2" color="textSecondary" className="mb-1">
+                          Key Skills Developed:
                             </Typography>
-                            <Typography variant="body2" style={{ fontWeight: 'bold' }}>
-                              {assignment.score}/{assignment.maxScore} ({assignment.grade})
-                            </Typography>
-                          </Box>
-                          <LinearProgress
-                            variant="determinate"
-                            value={(assignment.score / assignment.maxScore) * 100}
-                            style={{ 
-                              height: 8, 
-                              borderRadius: 4,
-                              backgroundColor: 'var(--light-color)'
-                            }}
-                          />
+                        <Box display="flex" flexWrap="wrap" gap={1}>
+                          {performance.skills.map((skill, index) => (
+                            <Chip
+                              key={index}
+                              label={skill}
+                              size="small"
+                              style={{
+                                backgroundColor: 'var(--light-color)',
+                                color: 'var(--text-primary)'
+                              }}
+                            />
+                          ))}
                         </Box>
-                      ))}
-                      
-                      <Box mt={2} p={2} style={{ backgroundColor: 'var(--light-color)', borderRadius: '8px' }}>
-                        <Typography variant="body2" align="center">
-                          Final Grade: <strong style={{ color: getGradeColor(grade.finalGrade) }}>{grade.finalGrade}</strong>
-                        </Typography>
+                      </Box>
+                      <Box display="flex" justifyContent="space-between" alignItems="center">
+                        <Typography variant="body2" color="textSecondary">
+                          Performance: {performance.performanceScore}%
+                            </Typography>
+                        <Chip
+                          label={performance.finalGrade}
+                          size="small"
+                            style={{ 
+                            backgroundColor: getGradeColor(performance.finalGrade),
+                            color: 'white'
+                          }}
+                        />
                       </Box>
                     </CardContent>
                   </Card>
@@ -410,63 +456,105 @@ const Grades = () => {
         )}
 
         {activeTab === 2 && (
-          <Paper className="p-4">
+          <Paper className="p-4" style={{ borderRadius: '12px' }}>
             <Typography variant="h6" className="mb-3" style={{ color: 'var(--primary-color)' }}>
-              <School style={{ marginRight: '8px', verticalAlign: 'middle' }} />
-              Grade History
+              Learning Progress Tracking
             </Typography>
-            
-            <Typography variant="body1" color="textSecondary" align="center">
-              Your complete academic history will be displayed here as you progress through your studies.
+            <Grid container spacing={3}>
+              <Grid item xs={12} md={6}>
+                <Card style={{ borderRadius: '12px' }}>
+                  <CardContent>
+                    <Typography variant="h6" className="mb-2" style={{ color: 'var(--accent-color)' }}>
+                      Assignment Completion
+                    </Typography>
+                    <Box display="flex" alignItems="center" mb={2}>
+                      <Typography variant="h4" style={{ color: 'var(--accent-color)', fontWeight: 'bold' }}>
+                        {overallStats.completedAssignments}/{overallStats.totalAssignments}
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary" style={{ marginLeft: '8px' }}>
+                        ({Math.round((overallStats.completedAssignments / overallStats.totalAssignments) * 100)}%)
+                      </Typography>
+                    </Box>
+                    <LinearProgress
+                      variant="determinate"
+                      value={(overallStats.completedAssignments / overallStats.totalAssignments) * 100}
+                      style={{ height: 10, borderRadius: 5 }}
+                    />
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Card style={{ borderRadius: '12px' }}>
+                  <CardContent>
+                    <Typography variant="h6" className="mb-2" style={{ color: 'var(--success-color)' }}>
+                      Course Progress
+                    </Typography>
+                    <Box display="flex" alignItems="center" mb={2}>
+                      <Typography variant="h4" style={{ color: 'var(--success-color)', fontWeight: 'bold' }}>
+                        {overallStats.inProgressCourses}/{overallStats.totalCourses}
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary" style={{ marginLeft: '8px' }}>
+                        Active Courses
             </Typography>
+                    </Box>
+                    <Typography variant="body2" color="textSecondary">
+                      {overallStats.totalCredits} credits in progress
+            </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            </Grid>
           </Paper>
         )}
       </Container>
 
-      {/* Grade Details Dialog */}
+      {/* Performance Details Dialog */}
       <Dialog 
-        open={showGradeDetails} 
-        onClose={() => setShowGradeDetails(false)}
+        open={showPerformanceDetails}
+        onClose={() => setShowPerformanceDetails(false)}
         maxWidth="md"
         fullWidth
       >
         <DialogTitle>
-          Grade Details - {selectedGrade?.courseCode}
+          <Box display="flex" alignItems="center">
+            <Code style={{ marginRight: '12px', color: 'var(--accent-color)' }} />
+            {selectedPerformance?.courseName} - Performance Details
+          </Box>
         </DialogTitle>
         <DialogContent>
-          {selectedGrade && (
+          {selectedPerformance && (
             <Box>
-              <Typography variant="h6" className="mb-3">
-                {selectedGrade.courseName}
+              <Typography variant="h6" className="mb-3" style={{ color: 'var(--primary-color)' }}>
+                Assignment Breakdown
               </Typography>
-              
-              <Grid container spacing={2} className="mb-3">
-                <Grid item xs={6}>
-                  <Typography variant="body2" color="textSecondary">Instructor</Typography>
-                  <Typography variant="body1">{selectedGrade.instructor}</Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <Typography variant="body2" color="textSecondary">Credits</Typography>
-                  <Typography variant="body1">{selectedGrade.credits}</Typography>
-                </Grid>
-              </Grid>
-              
-              <Typography variant="h6" className="mb-2">Assignment Breakdown</Typography>
               <TableContainer>
-                <Table size="small">
+                <Table>
                   <TableHead>
                     <TableRow>
-                      <TableCell>Assignment</TableCell>
-                      <TableCell>Score</TableCell>
-                      <TableCell>Weight</TableCell>
-                      <TableCell>Grade</TableCell>
+                      <TableCell style={{ fontWeight: 'bold' }}>Assignment</TableCell>
+                      <TableCell style={{ fontWeight: 'bold' }}>Type</TableCell>
+                      <TableCell style={{ fontWeight: 'bold' }}>Score</TableCell>
+                      <TableCell style={{ fontWeight: 'bold' }}>Weight</TableCell>
+                      <TableCell style={{ fontWeight: 'bold' }}>Grade</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {selectedGrade.assignments.map((assignment, index) => (
+                    {selectedPerformance.assignments.map((assignment, index) => (
                       <TableRow key={index}>
                         <TableCell>{assignment.name}</TableCell>
-                        <TableCell>{assignment.score}/{assignment.maxScore}</TableCell>
+                        <TableCell>
+                          <Chip
+                            label={assignment.type}
+                            size="small"
+                            style={{
+                              backgroundColor: 'var(--light-color)',
+                              color: 'var(--text-primary)'
+                            }}
+                          />
+                        </TableCell>
+                        <TableCell>
+                          {assignment.score}/{assignment.maxScore}
+                        </TableCell>
                         <TableCell>{assignment.weight}%</TableCell>
                         <TableCell>
                           <Chip
@@ -483,11 +571,30 @@ const Grades = () => {
                   </TableBody>
                 </Table>
               </TableContainer>
+              
+              <Box mt={3}>
+                <Typography variant="h6" className="mb-2" style={{ color: 'var(--primary-color)' }}>
+                  Skills Developed
+                </Typography>
+                <Box display="flex" flexWrap="wrap" gap={1}>
+                  {selectedPerformance.skills.map((skill, index) => (
+                    <Chip
+                      key={index}
+                      label={skill}
+                      style={{
+                        backgroundColor: 'var(--accent-color)',
+                        color: 'white',
+                        fontWeight: '500'
+                      }}
+                    />
+                  ))}
+                </Box>
+              </Box>
             </Box>
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setShowGradeDetails(false)}>
+          <Button onClick={() => setShowPerformanceDetails(false)} color="primary">
             Close
           </Button>
         </DialogActions>

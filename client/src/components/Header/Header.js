@@ -19,6 +19,12 @@ import { useDispatch } from "react-redux";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import SecurityIcon from "@material-ui/icons/Security";
 import HelpIcon from "@material-ui/icons/Help";
+import Assessment from "@material-ui/icons/Assessment";
+import MessageIcon from "@material-ui/icons/Message";
+import Forum from "@material-ui/icons/Forum";
+import SettingsApplicationsIcon from "@material-ui/icons/SettingsApplications";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import { Divider, Typography } from "@material-ui/core";
 
 const Header = () => {
   const history = useHistory();
@@ -26,6 +32,8 @@ const Header = () => {
   const [toggle, setToggle] = useState(false);
   const [notificationsAnchor, setNotificationsAnchor] = useState(null);
   const [settingsAnchor, setSettingsAnchor] = useState(null);
+  const [chatAnchor, setChatAnchor] = useState(null);
+  const [profileAnchor, setProfileAnchor] = useState(null);
 
   const user = JSON.parse(localStorage.getItem("user"));
   
@@ -41,19 +49,27 @@ const Header = () => {
     setSettingsAnchor(event.currentTarget);
   };
 
+  const handleProfileClick = (event) => {
+    setProfileAnchor(event.currentTarget);
+  };
+
 
 
   const handleClose = () => {
     setNotificationsAnchor(null);
     setSettingsAnchor(null);
     setChatAnchor(null);
+    setProfileAnchor(null);
   };
 
-  // Mock notifications data
+  // Mock notifications data - Software Engineering Department
   const notifications = [
-    { id: 1, message: "New course 'Advanced Mathematics' is available", time: "2 hours ago" },
-    { id: 2, message: "Quiz deadline reminder: Physics Quiz 1", time: "1 day ago" },
-    { id: 3, message: "Welcome to SEN Online Peer Learning Forum!", time: "2 days ago" }
+    { id: 1, message: "New course 'Software Quality Assurance & Testing' is available", time: "2 hours ago" },
+    { id: 2, message: "Quiz deadline reminder: Embedded Systems Programming Quiz 1", time: "1 day ago" },
+    { id: 3, message: "Software Engineering Workshop: DevOps Pipeline Optimization", time: "2 days ago" },
+    { id: 4, message: "Database Design Project submission deadline extended", time: "3 days ago" },
+    { id: 5, message: "Machine Learning Integration Lab session tomorrow", time: "4 days ago" },
+    { id: 6, message: "Software Architecture Design Competition registration open", time: "5 days ago" }
   ];
 
   // Mock chat messages
@@ -213,11 +229,61 @@ const Header = () => {
             </MenuItem>
           </Menu>
 
-          <Link to="/profile">
+          {/* Profile Icon with Dropdown */}
+          <IconButton onClick={handleProfileClick}>
             <Avatar style={{ backgroundColor: 'var(--accent-color)' }}>
               {user?.userName?.charAt(0) || 'U'}
             </Avatar>
-          </Link>
+          </IconButton>
+          <Menu
+            anchorEl={profileAnchor}
+            open={Boolean(profileAnchor)}
+            onClose={handleClose}
+            PaperProps={{
+              style: {
+                width: 250,
+              },
+            }}
+          >
+            <div style={{ padding: '16px', borderBottom: '1px solid #e0e0e0' }}>
+              <Typography variant="h6" style={{ margin: 0, color: 'var(--primary-color)' }}>
+                {user?.userName || 'User'}
+              </Typography>
+              <Typography variant="body2" style={{ color: 'var(--text-secondary)' }}>
+                {user?.role || 'Student'}
+              </Typography>
+            </div>
+            <MenuItem onClick={() => { handleClose(); history.push('/profile'); }}>
+              <AccountCircleIcon fontSize="small" style={{ marginRight: '8px' }} />
+              View Profile
+            </MenuItem>
+            <MenuItem onClick={() => { handleClose(); history.push('/grades'); }}>
+              <Assessment fontSize="small" style={{ marginRight: '8px' }} />
+              View Grades
+            </MenuItem>
+            <MenuItem onClick={() => { handleClose(); history.push('/messages'); }}>
+              <MessageIcon fontSize="small" style={{ marginRight: '8px' }} />
+              Messages
+            </MenuItem>
+            <MenuItem onClick={() => { handleClose(); history.push('/student-forum'); }}>
+              <Forum fontSize="small" style={{ marginRight: '8px' }} />
+              Student Forum
+            </MenuItem>
+            <Divider />
+            <MenuItem onClick={() => { handleClose(); history.push('/settings'); }}>
+              <SettingsApplicationsIcon fontSize="small" style={{ marginRight: '8px' }} />
+              Settings
+            </MenuItem>
+            <MenuItem onClick={() => { 
+              localStorage.clear("user");
+              localStorage.clear("auth_token");
+              dispatch({ type: "CLEAR__USER" });
+              history.push("/login");
+            }}>
+              <ExitToAppIcon fontSize="small" style={{ marginRight: '8px' }} />
+              Logout
+            </MenuItem>
+          </Menu>
         </div>
       ) : (
         <div className="d-flex list-unstyled">

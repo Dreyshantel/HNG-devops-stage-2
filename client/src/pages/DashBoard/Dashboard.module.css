@@ -4,31 +4,42 @@
     align-items: center;
     background-color: var(--light-color);
     border: 1px solid var(--border-color);
-    border-radius: 10px;
-    padding: 10px 20px;
+    border-radius: 16px;
+    padding: 20px 24px;
     margin: 50px 0px;
     box-shadow: var(--shadow);
+    transition: all 0.3s ease-in-out;
 }
+
+.dashboard__header__name:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(44, 62, 80, 0.15);
+}
+
 .dashboard__header__name>h2{
     margin-top: 5px;
+    margin-bottom: 0;
 }
+
 .dashboard__header__name>a{
     color: rgba(0, 0, 0, 0.603);
     text-decoration: none;
 }
+
 .dashboard__header__name>a:hover{
     color: rgb(0, 0, 0);
-    
 }
 
 .dropdown__style{
-    width: 60px;
+    width: 80px;
     height: 40px;
     background-color: var(--secondary-color);
     color: white;
-    border-radius: 7px;
+    border-radius: 8px;
     border: none;
-    transition: all 0.3s ease-in;
+    transition: all 0.3s ease-in-out;
+    font-weight: 500;
+    cursor: pointer;
 }
 
 .dropdown__style:hover{
@@ -36,4 +47,32 @@
     color: white;
     border: 1px solid var(--accent-color);
     transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+}
+
+.dropdown__style:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.25);
+}
+
+/* Add styles for the new components */
+.stat-card {
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(44, 62, 80, 0.15);
+}
+
+.deadline-card {
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.deadline-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(44, 62, 80, 0.1);
+    border-color: var(--accent-color);
 }

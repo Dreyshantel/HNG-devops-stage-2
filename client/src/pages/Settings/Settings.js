@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Container,
   Paper,
@@ -26,10 +26,10 @@ import {
   RadioGroup,
   Accordion,
   AccordionSummary,
-  AccordionDetails
+  AccordionDetails,
+  Snackbar
 } from '@material-ui/core';
 import {
-  Settings,
   Notifications,
   Language,
   Palette,
@@ -39,8 +39,12 @@ import {
   DataUsage,
   Help,
   Save,
-  RestoreDefaults,
-  ExpandMore
+  Restore,
+  ExpandMore,
+  Brightness4,
+  Brightness7,
+  Computer,
+  Translate
 } from '@material-ui/icons';
 import CommonHeader from '../../components/Common/CommonHeader';
 import './Settings.css';
@@ -80,6 +84,8 @@ const Settings = () => {
     screenReader: false,
     keyboardNavigation: true,
     reduceMotion: false,
+    largeText: false,
+    focusIndicators: true,
     
     // Privacy
     profileVisibility: 'public',
@@ -89,15 +95,102 @@ const Settings = () => {
   });
 
   const [expandedSection, setExpandedSection] = useState('notifications');
+  const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
+
+  // Load settings from localStorage on component mount
+  useEffect(() => {
+    const savedSettings = localStorage.getItem('userSettings');
+    if (savedSettings) {
+      const parsedSettings = JSON.parse(savedSettings);
+      setSettings(parsedSettings);
+      applySettings(parsedSettings);
+    }
+  }, []);
+
+  // Apply settings to the UI
+  const applySettings = (newSettings) => {
+    // Apply theme
+    if (newSettings.theme === 'dark') {
+      document.documentElement.style.setProperty('--background-color', '#1a1a1a');
+      document.documentElement.style.setProperty('--card-background', '#2d2d2d');
+      document.documentElement.style.setProperty('--text-primary', '#ffffff');
+      document.documentElement.style.setProperty('--text-secondary', '#b0b0b0');
+      document.documentElement.style.setProperty('--border-color', '#404040');
+      document.documentElement.style.setProperty('--light-color', '#404040');
+    } else {
+      document.documentElement.style.setProperty('--background-color', '#f8f9fa');
+      document.documentElement.style.setProperty('--card-background', '#ffffff');
+      document.documentElement.style.setProperty('--text-primary', '#2c3e50');
+      document.documentElement.style.setProperty('--text-secondary', '#7f8c8d');
+      document.documentElement.style.setProperty('--border-color', '#bdc3c7');
+      document.documentElement.style.setProperty('--light-color', '#ecf0f1');
+    }
+
+    // Apply high contrast
+    if (newSettings.highContrast) {
+      document.documentElement.style.setProperty('--primary-color', '#000000');
+      document.documentElement.style.setProperty('--accent-color', '#ffffff');
+      document.documentElement.style.setProperty('--text-primary', '#000000');
+      document.documentElement.style.setProperty('--text-secondary', '#000000');
+      document.documentElement.style.setProperty('--border-color', '#000000');
+    } else {
+      document.documentElement.style.setProperty('--primary-color', '#2c3e50');
+      document.documentElement.style.setProperty('--accent-color', '#3498db');
+      document.documentElement.style.setProperty('--text-primary', '#2c3e50');
+      document.documentElement.style.setProperty('--text-secondary', '#7f8c8d');
+      document.documentElement.style.setProperty('--border-color', '#bdc3c7');
+    }
+
+    // Apply font size
+    const fontSizeMap = {
+      'small': '14px',
+      'medium': '16px',
+      'large': '18px',
+      'extra-large': '20px'
+    };
+    document.documentElement.style.fontSize = fontSizeMap[newSettings.fontSize] || '16px';
+
+    // Apply focus indicators
+    if (newSettings.focusIndicators) {
+      document.documentElement.style.setProperty('--focus-outline', '2px solid var(--accent-color)');
+    } else {
+      document.documentElement.style.setProperty('--focus-outline', 'none');
+    }
+
+    // Apply large text
+    if (newSettings.largeText) {
+      document.documentElement.style.setProperty('--text-scale', '1.2');
+    } else {
+      document.documentElement.style.setProperty('--text-scale', '1');
+    }
+  };
 
   const handleSettingChange = (setting, value) => {
-    setSettings(prev => ({ ...prev, [setting]: value }));
+    const newSettings = { ...settings, [setting]: value };
+    setSettings(newSettings);
+    
+    // Apply settings immediately for certain changes
+    if (['theme', 'fontSize', 'highContrast', 'largeText', 'focusIndicators'].includes(setting)) {
+      applySettings(newSettings);
+      showSnackbar('Setting applied instantly!', 'success');
+    }
+    
+    // Save to localStorage
+    localStorage.setItem('userSettings', JSON.stringify(newSettings));
+  };
+
+  const showSnackbar = (message, severity = 'success') => {
+    setSnackbar({ open: true, message, severity });
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbar({ ...snackbar, open: false });
   };
 
   const handleSaveSettings = () => {
-    // Here you would typically save the settings to your backend
-    console.log('Saving settings:', settings);
-    // Show success message
+    // Save all settings to backend (if available)
+    localStorage.setItem('userSettings', JSON.stringify(settings));
+    showSnackbar('All settings saved successfully!', 'success');
   };
 
   const handleRestoreDefaults = () => {
@@ -127,13 +220,34 @@ const Settings = () => {
       screenReader: false,
       keyboardNavigation: true,
       reduceMotion: false,
+      largeText: false,
+      focusIndicators: true,
       profileVisibility: 'public',
       dataSharing: 'limited',
       analytics: true,
       cookies: true
     };
     setSettings(defaultSettings);
+    applySettings(defaultSettings);
+    localStorage.setItem('userSettings', JSON.stringify(defaultSettings));
+    showSnackbar('Settings restored to defaults!', 'info');
   };
+
+  // Enhanced language options
+  const languages = [
+    { value: 'en', label: 'English', flag: '🇺🇸' },
+    { value: 'es', label: 'Español', flag: '🇪🇸' },
+    { value: 'fr', label: 'Français', flag: '🇫🇷' },
+    { value: 'de', label: 'Deutsch', flag: '🇩🇪' },
+    { value: 'zh', label: '中文', flag: '🇨🇳' },
+    { value: 'ja', label: '日本語', flag: '🇯🇵' },
+    { value: 'ko', label: '한국어', flag: '🇰🇷' },
+    { value: 'ar', label: 'العربية', flag: '🇸🇦' },
+    { value: 'hi', label: 'हिन्दी', flag: '🇮🇳' },
+    { value: 'pt', label: 'Português', flag: '🇵🇹' },
+    { value: 'ru', label: 'Русский', flag: '🇷🇺' },
+    { value: 'it', label: 'Italiano', flag: '🇮🇹' }
+  ];
 
   const renderNotificationsSettings = () => (
     <Grid container spacing={3}>
@@ -249,9 +363,24 @@ const Settings = () => {
                 value={settings.theme}
                 onChange={(e) => handleSettingChange('theme', e.target.value)}
               >
-                <MenuItem value="light">Light</MenuItem>
-                <MenuItem value="dark">Dark</MenuItem>
-                <MenuItem value="auto">Auto (System)</MenuItem>
+                <MenuItem value="light">
+                  <Box display="flex" alignItems="center">
+                    <Brightness7 style={{ marginRight: '8px' }} />
+                    Light
+                  </Box>
+                </MenuItem>
+                <MenuItem value="dark">
+                  <Box display="flex" alignItems="center">
+                    <Brightness4 style={{ marginRight: '8px' }} />
+                    Dark
+                  </Box>
+                </MenuItem>
+                <MenuItem value="auto">
+                  <Box display="flex" alignItems="center">
+                    <Computer style={{ marginRight: '8px' }} />
+                    Auto (System)
+                  </Box>
+                </MenuItem>
               </Select>
             </FormControl>
             
@@ -261,10 +390,10 @@ const Settings = () => {
                 value={settings.fontSize}
                 onChange={(e) => handleSettingChange('fontSize', e.target.value)}
               >
-                <MenuItem value="small">Small</MenuItem>
-                <MenuItem value="medium">Medium</MenuItem>
-                <MenuItem value="large">Large</MenuItem>
-                <MenuItem value="extra-large">Extra Large</MenuItem>
+                <MenuItem value="small">Small (14px)</MenuItem>
+                <MenuItem value="medium">Medium (16px)</MenuItem>
+                <MenuItem value="large">Large (18px)</MenuItem>
+                <MenuItem value="extra-large">Extra Large (20px)</MenuItem>
               </Select>
             </FormControl>
             
@@ -338,12 +467,14 @@ const Settings = () => {
                 value={settings.language}
                 onChange={(e) => handleSettingChange('language', e.target.value)}
               >
-                <MenuItem value="en">English</MenuItem>
-                <MenuItem value="es">Spanish</MenuItem>
-                <MenuItem value="fr">French</MenuItem>
-                <MenuItem value="de">German</MenuItem>
-                <MenuItem value="zh">Chinese</MenuItem>
-                <MenuItem value="ar">Arabic</MenuItem>
+                {languages.map((lang) => (
+                  <MenuItem key={lang.value} value={lang.value}>
+                    <Box display="flex" alignItems="center">
+                      <span style={{ marginRight: '8px' }}>{lang.flag}</span>
+                      {lang.label}
+                    </Box>
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
             
@@ -361,6 +492,10 @@ const Settings = () => {
                 <MenuItem value="UTC+8">UTC+8 (Beijing)</MenuItem>
               </Select>
             </FormControl>
+
+            <Typography variant="body2" color="textSecondary" className="mt-3">
+              💡 Language changes will be applied immediately across the application
+            </Typography>
           </CardContent>
         </Card>
       </Grid>
@@ -388,12 +523,24 @@ const Settings = () => {
             <FormControlLabel
               control={
                 <Switch
-                  checked={settings.screenReader}
-                  onChange={(e) => handleSettingChange('screenReader', e.target.checked)}
+                  checked={settings.largeText}
+                  onChange={(e) => handleSettingChange('largeText', e.target.checked)}
                   color="primary"
                 />
               }
-              label="Screen Reader Support"
+              label="Large Text"
+              className="mb-2"
+            />
+            
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={settings.focusIndicators}
+                  onChange={(e) => handleSettingChange('focusIndicators', e.target.checked)}
+                  color="primary"
+                />
+              }
+              label="Enhanced Focus Indicators"
               className="mb-2"
             />
             
@@ -406,6 +553,18 @@ const Settings = () => {
                 />
               }
               label="Enhanced Keyboard Navigation"
+              className="mb-2"
+            />
+
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={settings.screenReader}
+                  onChange={(e) => handleSettingChange('screenReader', e.target.checked)}
+                  color="primary"
+                />
+              }
+              label="Screen Reader Support"
               className="mb-2"
             />
           </CardContent>
@@ -623,7 +782,7 @@ const Settings = () => {
             
             <Button
               variant="outlined"
-              startIcon={<RestoreDefaults />}
+              startIcon={<Restore />}
               onClick={handleRestoreDefaults}
               style={{ borderColor: 'var(--warning-color)', color: 'var(--warning-color)' }}
               size="large"
@@ -633,6 +792,27 @@ const Settings = () => {
           </Box>
         </Paper>
       </Container>
+
+      {/* Custom notification for feedback */}
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        message={snackbar.message}
+        action={
+          <Button color="secondary" size="small" onClick={handleCloseSnackbar}>
+            CLOSE
+          </Button>
+        }
+        style={{
+          backgroundColor: snackbar.severity === 'success' ? 'var(--success-color)' :
+                          snackbar.severity === 'warning' ? 'var(--warning-color)' :
+                          snackbar.severity === 'error' ? 'var(--danger-color)' :
+                          'var(--accent-color)',
+          color: 'white'
+        }}
+      />
     </div>
   );
 };

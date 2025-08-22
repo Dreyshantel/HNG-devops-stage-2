@@ -57,36 +57,36 @@ const Messages = () => {
     message: ''
   });
 
-  // Mock data for conversations
+  // Mock data for conversations - Software Engineering Department
   const conversations = [
     {
       id: 1,
-      name: 'Dr. Sarah Johnson',
+      name: 'Dr. Jimoh',
       role: 'Lecturer',
-      subject: 'Physics 101',
-      lastMessage: 'Please submit your lab report by Friday',
+      subject: 'Software Quality Assurance',
+      lastMessage: 'Please submit your testing documentation by Friday',
       timestamp: '2 hours ago',
       unread: 2,
-      avatar: 'SJ',
+      avatar: 'DJ',
       online: true,
       messages: [
         {
           id: 1,
-          sender: 'Dr. Sarah Johnson',
-          content: 'Hello! I wanted to discuss your recent quiz performance.',
+          sender: 'Dr. Jimoh',
+          content: 'Hello! I wanted to discuss your recent testing assignment performance.',
           timestamp: '2 days ago',
           isOwn: false
         },
         {
           id: 2,
           sender: 'You',
-          content: 'Hi Dr. Johnson, thank you for reaching out. I\'d be happy to discuss it.',
+          content: 'Hi Dr. Jimoh, thank you for reaching out. I\'d be happy to discuss it.',
           timestamp: '1 day ago',
           isOwn: true
         },
         {
           id: 3,
-          sender: 'Dr. Sarah Johnson',
+          sender: 'Dr. Jimoh',
           content: 'Great! Can we meet tomorrow at 2 PM in my office?',
           timestamp: '1 day ago',
           isOwn: false
@@ -100,8 +100,8 @@ const Messages = () => {
         },
         {
           id: 5,
-          sender: 'Dr. Sarah Johnson',
-          content: 'Please submit your lab report by Friday',
+          sender: 'Dr. Jimoh',
+          content: 'Please submit your testing documentation by Friday',
           timestamp: '2 hours ago',
           isOwn: false
         }
@@ -109,19 +109,19 @@ const Messages = () => {
     },
     {
       id: 2,
-      name: 'Mike Chen',
-      role: 'Student',
-      subject: 'Study Group',
-      lastMessage: 'Are you free to study calculus tonight?',
+      name: 'Dr. Adewole',
+      role: 'Lecturer',
+      subject: 'Embedded Systems',
+      lastMessage: 'Your embedded project implementation looks excellent!',
       timestamp: '1 day ago',
       unread: 0,
-      avatar: 'MC',
+      avatar: 'DA',
       online: false,
       messages: [
         {
           id: 1,
-          sender: 'Mike Chen',
-          content: 'Hey! Are you free to study calculus tonight?',
+          sender: 'Dr. Adewole',
+          content: 'Hey! Your embedded systems project is progressing well. Great work on the real-time constraints!',
           timestamp: '1 day ago',
           isOwn: false
         }
@@ -129,19 +129,19 @@ const Messages = () => {
     },
     {
       id: 3,
-      name: 'Dr. Robert Williams',
-      role: 'Lecturer',
-      subject: 'Chemistry Lab',
-      lastMessage: 'Your experiment results look excellent!',
+      name: 'Prof. Akintola',
+      role: 'Professor',
+      subject: 'Software Architecture',
+      lastMessage: 'Your architectural design review is scheduled for next week',
       timestamp: '3 days ago',
       unread: 0,
-      avatar: 'RW',
+      avatar: 'PA',
       online: false,
       messages: [
         {
           id: 1,
-          sender: 'Dr. Robert Williams',
-          content: 'Your experiment results look excellent! Great work on the titration.',
+          sender: 'Prof. Akintola',
+          content: 'Your software architecture design looks excellent! Great work on the microservices pattern.',
           timestamp: '3 days ago',
           isOwn: false
         }

@@ -36,6 +36,7 @@ import {
   Comment,
   Share,
   Bookmark,
+  Delete,
   Search,
   TrendingUp,
   School,
@@ -59,100 +60,223 @@ const StudentForum = () => {
   const [newPost, setNewPost] = useState({
     title: '',
     content: '',
-    category: 'general',
+    category: 'software-engineering',
     tags: ''
   });
   const [newQuestion, setNewQuestion] = useState({
     title: '',
     description: '',
-    subject: 'physics',
+    subject: 'software-engineering',
     difficulty: 'beginner'
   });
+  const [newComment, setNewComment] = useState('');
+  const [expandedPosts, setExpandedPosts] = useState(new Set()); // Track which posts show comments
+  const [userReactions, setUserReactions] = useState({}); // Track user likes/dislikes for each post
 
-  // Mock forum data
-  const forumPosts = [
+  // Mock forum data - Software Engineering Topics
+  const [forumPosts, setForumPosts] = useState([
     {
       id: 1,
-      title: "Understanding Newton's Laws of Motion",
-      content: "I've been studying physics and I'm having trouble understanding the practical applications of Newton's laws. Can anyone share some real-world examples?",
+      title: "Quality Assurance Best Practices in Software Development",
+      content: "I'm working on implementing QA processes in our development team. What are the most effective testing strategies and tools you've used for ensuring code quality?",
       author: "Sarah Johnson",
       authorAvatar: "SJ",
-      category: "physics",
-      tags: ["physics", "mechanics", "newton-laws"],
+      category: "quality-assurance",
+      tags: ["qa", "testing", "software-quality", "best-practices"],
       likes: 24,
       dislikes: 2,
       comments: 8,
       timestamp: "2 hours ago",
       isQuestion: true,
       difficulty: "beginner",
-      bookmarked: false
+      bookmarked: false,
+      commentList: [
+        {
+          id: 1,
+          author: "Mike Chen",
+          authorAvatar: "MC",
+          content: "I've found that implementing automated testing with Jest and Cypress has significantly improved our code quality. Unit tests for critical functions and integration tests for user flows.",
+          timestamp: "1 hour ago",
+          likes: 5
+        },
+        {
+          id: 2,
+          author: "Emily Davis",
+          authorAvatar: "ED",
+          content: "Code review is crucial! We use GitHub's pull request system and require at least two approvals before merging. This catches many issues early.",
+          timestamp: "45 minutes ago",
+          likes: 3
+        }
+      ]
     },
     {
       id: 2,
-      title: "Calculus Integration Techniques",
-      content: "Here's a comprehensive guide to different integration techniques I compiled while studying for my calculus exam. Hope this helps fellow students!",
+      title: "Embedded Systems Programming with C++",
+      content: "Here's a comprehensive guide to embedded systems development I compiled while working on IoT projects. Covers real-time constraints, memory management, and hardware interfacing.",
       author: "Mike Chen",
       authorAvatar: "MC",
-      category: "mathematics",
-      tags: ["calculus", "integration", "study-guide"],
+      category: "embedded-systems",
+      tags: ["embedded", "cpp", "iot", "real-time", "hardware"],
       likes: 45,
       dislikes: 1,
       comments: 12,
       timestamp: "5 hours ago",
       isQuestion: false,
       difficulty: "intermediate",
-      bookmarked: false
+      bookmarked: false,
+      commentList: [
+        {
+          id: 1,
+          author: "Alex Rodriguez",
+          authorAvatar: "AR",
+          content: "Great guide! I especially liked the section on memory management. Have you worked with FreeRTOS? It's excellent for real-time constraints.",
+          timestamp: "4 hours ago",
+          likes: 8
+        },
+        {
+          id: 2,
+          author: "Lisa Wang",
+          authorAvatar: "LW",
+          content: "This is exactly what I needed for my robotics project. The hardware interfacing examples are very practical.",
+          timestamp: "3 hours ago",
+          likes: 6
+        }
+      ]
     },
     {
       id: 3,
-      title: "Chemistry Lab Safety Tips",
-      content: "Important safety reminders for the upcoming chemistry lab session. Always wear protective gear and follow proper procedures.",
+      title: "Software Architecture Patterns for Scalable Applications",
+      content: "Important architectural considerations for building scalable software systems. Microservices vs Monolith, when to use each approach, and implementation strategies.",
       author: "Emily Davis",
       authorAvatar: "ED",
-      category: "chemistry",
-      tags: ["chemistry", "lab-safety", "tips"],
+      category: "software-architecture",
+      tags: ["architecture", "microservices", "scalability", "design-patterns"],
       likes: 31,
       dislikes: 0,
       comments: 5,
       timestamp: "1 day ago",
       isQuestion: false,
       difficulty: "beginner",
-      bookmarked: false
+      bookmarked: false,
+      commentList: [
+        {
+          id: 1,
+          author: "David Kim",
+          authorAvatar: "DK",
+          content: "I've been using the Repository pattern with CQRS for my current project. It's working well for separating read and write operations.",
+          timestamp: "23 hours ago",
+          likes: 4
+        }
+      ]
     },
     {
       id: 4,
-      title: "Help with Organic Chemistry Mechanisms",
-      content: "I'm struggling with understanding SN1 and SN2 reactions. Can someone explain the key differences and when to use each mechanism?",
+      title: "Machine Learning Integration in Software Applications",
+      content: "I'm struggling with integrating ML models into production software. Can someone explain the best practices for model deployment, versioning, and monitoring?",
       author: "Alex Rodriguez",
       authorAvatar: "AR",
-      category: "chemistry",
-      tags: ["organic-chemistry", "reaction-mechanisms", "help"],
+      category: "machine-learning",
+      tags: ["ml", "ai", "deployment", "production", "monitoring"],
       likes: 18,
       dislikes: 3,
       comments: 15,
       timestamp: "2 days ago",
       isQuestion: true,
       difficulty: "advanced",
-      bookmarked: false
+      bookmarked: false,
+      commentList: [
+        {
+          id: 1,
+          author: "Sarah Johnson",
+          authorAvatar: "SJ",
+          content: "I recommend using MLflow for model versioning and deployment. It integrates well with existing CI/CD pipelines and provides excellent monitoring capabilities.",
+          timestamp: "2 days ago",
+          likes: 12
+        },
+        {
+          id: 2,
+          author: "Mike Chen",
+          authorAvatar: "MC",
+          content: "Don't forget about A/B testing for model performance! We use feature flags to gradually roll out new models.",
+          timestamp: "1 day ago",
+          likes: 9
+        }
+      ]
+    },
+    {
+      id: 5,
+      title: "DevOps Pipeline Optimization Strategies",
+      content: "How to streamline CI/CD pipelines for faster deployments? Looking for tips on reducing build times, automated testing, and deployment strategies.",
+      author: "Lisa Wang",
+      authorAvatar: "LW",
+      category: "devops",
+      tags: ["devops", "ci-cd", "automation", "deployment"],
+      likes: 32,
+      dislikes: 1,
+      comments: 9,
+      timestamp: "3 days ago",
+      isQuestion: true,
+      difficulty: "intermediate",
+      bookmarked: false,
+      commentList: [
+        {
+          id: 1,
+          author: "Emily Davis",
+          authorAvatar: "ED",
+          content: "We've had great success with Docker layer caching and parallel test execution. Also, consider using GitHub Actions for simpler pipeline management.",
+          timestamp: "3 days ago",
+          likes: 7
+        }
+      ]
+    },
+    {
+      id: 6,
+      title: "Database Design for Software Engineering Projects",
+      content: "Best practices for designing databases in software engineering. Normalization, indexing strategies, and performance optimization techniques.",
+      author: "David Kim",
+      authorAvatar: "DK",
+      category: "database-design",
+      tags: ["database", "sql", "normalization", "performance", "indexing"],
+      likes: 28,
+      dislikes: 2,
+      comments: 11,
+      timestamp: "4 days ago",
+      isQuestion: false,
+      difficulty: "intermediate",
+      bookmarked: false,
+      commentList: [
+        {
+          id: 1,
+          author: "Alex Rodriguez",
+          authorAvatar: "AR",
+          content: "Great overview! I'd add that considering the read/write ratio is crucial for choosing between different database types.",
+          timestamp: "4 days ago",
+          likes: 6
+        }
+      ]
     }
-  ];
+  ]);
 
   const categories = [
     { value: 'all', label: 'All Topics', icon: <Forum /> },
-    { value: 'physics', label: 'Physics', icon: <School /> },
-    { value: 'mathematics', label: 'Mathematics', icon: <TrendingUp /> },
-    { value: 'chemistry', label: 'Chemistry', icon: <EmojiObjects /> },
-    { value: 'biology', label: 'Biology', icon: <Group /> },
+    { value: 'quality-assurance', label: 'Quality Assurance', icon: <School /> },
+    { value: 'embedded-systems', label: 'Embedded Systems', icon: <TrendingUp /> },
+    { value: 'software-architecture', label: 'Software Architecture', icon: <EmojiObjects /> },
+    { value: 'machine-learning', label: 'Machine Learning', icon: <Group /> },
+    { value: 'devops', label: 'DevOps', icon: <QuestionAnswer /> },
+    { value: 'database-design', label: 'Database Design', icon: <Forum /> },
     { value: 'general', label: 'General Discussion', icon: <QuestionAnswer /> }
   ];
 
   const subjects = [
-    { value: 'physics', label: 'Physics' },
-    { value: 'mathematics', label: 'Mathematics' },
-    { value: 'chemistry', label: 'Chemistry' },
-    { value: 'biology', label: 'Biology' },
-    { value: 'computer-science', label: 'Computer Science' },
-    { value: 'engineering', label: 'Engineering' }
+    { value: 'quality-assurance', label: 'Quality Assurance' },
+    { value: 'embedded-systems', label: 'Embedded Systems' },
+    { value: 'software-architecture', label: 'Software Architecture' },
+    { value: 'machine-learning', label: 'Machine Learning' },
+    { value: 'devops', label: 'DevOps' },
+    { value: 'database-design', label: 'Database Design' },
+    { value: 'software-engineering', label: 'Software Engineering' },
+    { value: 'web-development', label: 'Web Development' }
   ];
 
   const difficulties = [
@@ -166,37 +290,145 @@ const StudentForum = () => {
   };
 
   const handleNewPost = () => {
-    // Here you would typically send the post to your backend
-    console.log('New post:', newPost);
-    setNewPost({ title: '', content: '', category: 'general', tags: '' });
-    setShowNewPostDialog(false);
+    if (newPost.title.trim() && newPost.content.trim()) {
+      const newPostObj = {
+        id: Date.now(), // Simple ID generation
+        title: newPost.title.trim(),
+        content: newPost.content.trim(),
+        author: "Current User", // This would come from user context
+        authorAvatar: "CU",
+        category: newPost.category,
+        tags: newPost.tags.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0),
+        likes: 0,
+        dislikes: 0,
+        comments: 0,
+        timestamp: "Just now",
+        isQuestion: false,
+        difficulty: "beginner",
+        bookmarked: false,
+        commentList: []
+      };
+
+      // Add the new post to the forum
+      setForumPosts(prevPosts => [newPostObj, ...prevPosts]);
+
+      // Reset form and close dialog
+      setNewPost({ title: '', content: '', category: 'software-engineering', tags: '' });
+      setShowNewPostDialog(false);
+    }
   };
 
   const handleNewQuestion = () => {
-    // Here you would typically send the question to your backend
-    console.log('New question:', newQuestion);
-    setNewQuestion({ title: '', description: '', subject: 'physics', difficulty: 'beginner' });
-    setShowQuestionDialog(false);
+    if (newQuestion.title.trim() && newQuestion.description.trim()) {
+      const newQuestionObj = {
+        id: Date.now(), // Simple ID generation
+        title: newQuestion.title.trim(),
+        content: newQuestion.description.trim(),
+        author: "Current User", // This would come from user context
+        authorAvatar: "CU",
+        category: newQuestion.subject,
+        tags: [newQuestion.subject, newQuestion.difficulty],
+        likes: 0,
+        dislikes: 0,
+        comments: 0,
+        timestamp: "Just now",
+        isQuestion: true,
+        difficulty: newQuestion.difficulty,
+        bookmarked: false,
+        commentList: []
+      };
+
+      // Add the new question to the forum
+      setForumPosts(prevPosts => [newQuestionObj, ...prevPosts]);
+
+      // Reset form and close dialog
+      setNewQuestion({ title: '', description: '', subject: 'software-engineering', difficulty: 'beginner' });
+      setShowQuestionDialog(false);
+    }
   };
 
   const handleLike = (postId) => {
-    setForumPosts(prevPosts => 
-      prevPosts.map(post => 
-        post.id === postId 
-          ? { ...post, likes: post.likes + 1 }
-          : post
-      )
-    );
+    const currentReaction = userReactions[postId];
+    
+    // If user already liked this post, remove the like
+    if (currentReaction === 'like') {
+      setForumPosts(prevPosts => 
+        prevPosts.map(post => 
+          post.id === postId 
+            ? { ...post, likes: post.likes - 1 }
+            : post
+        )
+      );
+      setUserReactions(prev => {
+        const newReactions = { ...prev };
+        delete newReactions[postId];
+        return newReactions;
+      });
+    } 
+    // If user disliked this post, remove dislike and add like
+    else if (currentReaction === 'dislike') {
+      setForumPosts(prevPosts => 
+        prevPosts.map(post => 
+          post.id === postId 
+            ? { ...post, dislikes: post.dislikes - 1, likes: post.likes + 1 }
+            : post
+        )
+      );
+      setUserReactions(prev => ({ ...prev, [postId]: 'like' }));
+    }
+    // If user hasn't reacted, add like
+    else {
+      setForumPosts(prevPosts => 
+        prevPosts.map(post => 
+          post.id === postId 
+            ? { ...post, likes: post.likes + 1 }
+            : post
+        )
+      );
+      setUserReactions(prev => ({ ...prev, [postId]: 'like' }));
+    }
   };
 
   const handleDislike = (postId) => {
-    setForumPosts(prevPosts => 
-      prevPosts.map(post => 
-        post.id === postId 
-          ? { ...post, dislikes: post.dislikes + 1 }
-          : post
-      )
-    );
+    const currentReaction = userReactions[postId];
+    
+    // If user already disliked this post, remove the dislike
+    if (currentReaction === 'dislike') {
+      setForumPosts(prevPosts => 
+        prevPosts.map(post => 
+          post.id === postId 
+            ? { ...post, dislikes: post.dislikes - 1 }
+            : post
+        )
+      );
+      setUserReactions(prev => {
+        const newReactions = { ...prev };
+        delete newReactions[postId];
+        return newReactions;
+      });
+    } 
+    // If user liked this post, remove like and add dislike
+    else if (currentReaction === 'like') {
+      setForumPosts(prevPosts => 
+        prevPosts.map(post => 
+          post.id === postId 
+            ? { ...post, likes: post.likes - 1, dislikes: post.dislikes + 1 }
+            : post
+        )
+      );
+      setUserReactions(prev => ({ ...prev, [postId]: 'dislike' }));
+    }
+    // If user hasn't reacted, add dislike
+    else {
+      setForumPosts(prevPosts => 
+        prevPosts.map(post => 
+          post.id === postId 
+            ? { ...post, dislikes: post.dislikes + 1 }
+            : post
+        )
+      );
+      setUserReactions(prev => ({ ...prev, [postId]: 'dislike' }));
+    }
   };
 
   const handleComment = (postId) => {
@@ -204,6 +436,49 @@ const StudentForum = () => {
     setSelectedPostId(postId);
     setShowCommentDialog(true);
   };
+
+  const handleAddComment = () => {
+    if (newComment.trim() && selectedPostId) {
+      const newCommentObj = {
+        id: Date.now(), // Simple ID generation
+        author: "Current User", // This would come from user context
+        authorAvatar: "CU",
+        content: newComment.trim(),
+        timestamp: "Just now",
+        likes: 0
+      };
+
+      setForumPosts(prevPosts => 
+        prevPosts.map(post => 
+          post.id === selectedPostId 
+            ? { 
+                ...post, 
+                commentList: [...(post.commentList || []), newCommentObj]
+              }
+            : post
+        )
+      );
+
+      // Reset comment form and close dialog
+      setNewComment('');
+      setShowCommentDialog(false);
+      setSelectedPostId(null);
+    }
+  };
+
+  const toggleComments = (postId) => {
+    setExpandedPosts(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(postId)) {
+        newSet.delete(postId);
+      } else {
+        newSet.add(postId);
+      }
+      return newSet;
+    });
+  };
+
+
 
   const handleShare = (postId) => {
     const post = forumPosts.find(p => p.id === postId);
@@ -230,6 +505,46 @@ const StudentForum = () => {
     );
   };
 
+  const handleDeletePost = (postId) => {
+    // Show confirmation dialog before deleting
+    if (window.confirm('Are you sure you want to delete this post? This action cannot be undone.')) {
+      setForumPosts(prevPosts => 
+        prevPosts.filter(post => post.id !== postId)
+      );
+      
+      // Also remove any user reactions for this post
+      setUserReactions(prev => {
+        const newReactions = { ...prev };
+        delete newReactions[postId];
+        return newReactions;
+      });
+      
+      // Remove from expanded posts if it was expanded
+      setExpandedPosts(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(postId);
+        return newSet;
+      });
+    }
+  };
+
+  const handleDeleteComment = (postId, commentId) => {
+    // Show confirmation dialog before deleting
+    if (window.confirm('Are you sure you want to delete this comment? This action cannot be undone.')) {
+      setForumPosts(prevPosts => 
+        prevPosts.map(post => 
+          post.id === postId 
+            ? { 
+                ...post, 
+                comments: post.comments - 1,
+                commentList: post.commentList.filter(comment => comment.id !== commentId)
+              }
+            : post
+        )
+      );
+    }
+  };
+
   const filteredPosts = forumPosts.filter(post => {
     const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          post.content.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -242,12 +557,15 @@ const StudentForum = () => {
 
   const getCategoryColor = (category) => {
     const colors = {
-      physics: 'var(--accent-color)',
-      mathematics: 'var(--success-color)',
-      chemistry: 'var(--warning-color)',
-      biology: 'var(--primary-color)',
-      'computer-science': 'var(--danger-color)',
-      engineering: 'var(--secondary-color)'
+      'quality-assurance': 'var(--accent-color)',
+      'embedded-systems': 'var(--success-color)',
+      'software-architecture': 'var(--warning-color)',
+      'machine-learning': 'var(--primary-color)',
+      'devops': 'var(--danger-color)',
+      'database-design': 'var(--secondary-color)',
+      'software-engineering': 'var(--info-color)',
+      'web-development': 'var(--success-color)',
+      'general': 'var(--text-secondary)'
     };
     return colors[category] || 'var(--text-secondary)';
   };
@@ -396,14 +714,34 @@ const StudentForum = () => {
 
                   <Box display="flex" alignItems="center" gap={2}>
                     <Box display="flex" alignItems="center" gap={1}>
-                      <IconButton size="small" onClick={() => handleLike(post.id)}>
+                      <IconButton 
+                        size="small" 
+                        onClick={() => handleLike(post.id)}
+                        style={{ 
+                          color: userReactions[post.id] === 'like' ? '#1976d2' : 'inherit',
+                          backgroundColor: userReactions[post.id] === 'like' ? 'rgba(25, 118, 210, 0.1)' : 'transparent',
+                          border: userReactions[post.id] === 'like' ? '1px solid #1976d2' : '1px solid transparent',
+                          borderRadius: '50%',
+                          transition: 'all 0.2s ease-in-out'
+                        }}
+                      >
                         <ThumbUp fontSize="small" />
                       </IconButton>
                       <Typography variant="body2">{post.likes}</Typography>
                     </Box>
                     
                     <Box display="flex" alignItems="center" gap={1}>
-                      <IconButton size="small" onClick={() => handleDislike(post.id)}>
+                      <IconButton 
+                        size="small" 
+                        onClick={() => handleDislike(post.id)}
+                        style={{ 
+                          color: userReactions[post.id] === 'dislike' ? '#1976d2' : 'inherit',
+                          backgroundColor: userReactions[post.id] === 'dislike' ? 'rgba(25, 118, 210, 0.1)' : 'transparent',
+                          border: userReactions[post.id] === 'dislike' ? '1px solid #1976d2' : '1px solid transparent',
+                          borderRadius: '50%',
+                          transition: 'all 0.2s ease-in-out'
+                        }}
+                      >
                         <ThumbDown fontSize="small" />
                       </IconButton>
                       <Typography variant="body2">{post.dislikes}</Typography>
@@ -427,6 +765,76 @@ const StudentForum = () => {
                     >
                       <Bookmark fontSize="small" />
                     </IconButton>
+                    
+                    {/* Delete Post Button - Only show for posts created by current user */}
+                    {post.author === "Current User" && (
+                      <IconButton 
+                        size="small" 
+                        onClick={() => handleDeletePost(post.id)}
+                        style={{ color: 'var(--danger-color)' }}
+                      >
+                        <Delete fontSize="small" />
+                      </IconButton>
+                    )}
+                  </Box>
+
+                  {/* Comments Section */}
+                  <Box mt={2} pt={2} borderTop="1px solid var(--border-color)">
+                    <Box display="flex" alignItems="center" justifyContent="flex-end" mb={2}>
+                      <Button
+                        size="small"
+                        variant="outlined"
+                        onClick={() => toggleComments(post.id)}
+                        style={{ borderColor: 'var(--accent-color)', color: 'var(--accent-color)' }}
+                      >
+                        {expandedPosts.has(post.id) ? 'Hide Comments' : 'View Comments'}
+                      </Button>
+                    </Box>
+                    
+                    {post.commentList && post.commentList.length > 0 && expandedPosts.has(post.id) && (
+                      <Box>
+                        {post.commentList.map((comment) => (
+                          <Box key={comment.id} mb={2} pl={2} borderLeft="3px solid var(--accent-color)">
+                            <Box display="flex" alignItems="center" mb={1}>
+                              <Avatar 
+                                size="small" 
+                                style={{ 
+                                  width: 24, 
+                                  height: 24, 
+                                  fontSize: '0.75rem',
+                                  backgroundColor: 'var(--accent-color)',
+                                  marginRight: '8px'
+                                }}
+                              >
+                                {comment.authorAvatar}
+                              </Avatar>
+                              <Typography variant="body2" style={{ fontWeight: 'bold', marginRight: '8px' }}>
+                                {comment.author}
+                              </Typography>
+                              <Typography variant="caption" style={{ color: 'var(--text-secondary)' }}>
+                                {comment.timestamp}
+                              </Typography>
+                            </Box>
+                            <Typography variant="body2" style={{ color: 'var(--text-primary)' }}>
+                              {comment.content}
+                            </Typography>
+                            
+                            {/* Delete Comment Button - Only show for comments created by current user */}
+                            {comment.author === "Current User" && (
+                              <Box mt={1} textAlign="right">
+                                <IconButton 
+                                  size="small" 
+                                  onClick={() => handleDeleteComment(post.id, comment.id)}
+                                  style={{ color: 'var(--danger-color)', padding: '2px' }}
+                                >
+                                  <Delete fontSize="small" />
+                                </IconButton>
+                              </Box>
+                            )}
+                          </Box>
+                        ))}
+                      </Box>
+                    )}
                   </Box>
                 </CardContent>
               </Card>
@@ -467,7 +875,19 @@ const StudentForum = () => {
               </Typography>
               <List>
                 {categories.slice(1).map((category) => (
-                  <ListItem key={category.value} button>
+                  <ListItem 
+                    key={category.value} 
+                    button
+                    onClick={() => {
+                      if (category.value === 'general') {
+                        // Navigate to general discussion page
+                        window.location.href = '/general-discussion';
+                      } else {
+                        // Filter by category
+                        setSelectedCategory(category.value);
+                      }
+                    }}
+                  >
                     <ListItemAvatar>
                       <Avatar style={{ backgroundColor: getCategoryColor(category.value) }}>
                         {category.icon}
@@ -563,6 +983,7 @@ const StudentForum = () => {
           <Button 
             onClick={handleNewPost}
             variant="contained"
+            disabled={!newPost.title.trim() || !newPost.content.trim()}
             style={{ backgroundColor: 'var(--accent-color)' }}
           >
             Post
@@ -635,6 +1056,7 @@ const StudentForum = () => {
           <Button 
             onClick={handleNewQuestion}
             variant="contained"
+            disabled={!newQuestion.title.trim() || !newQuestion.description.trim()}
             style={{ backgroundColor: 'var(--success-color)' }}
           >
             Ask Question
@@ -657,20 +1079,24 @@ const StudentForum = () => {
             multiline
             rows={4}
             placeholder="Share your thoughts on this post..."
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
             className="mb-3"
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setShowCommentDialog(false)}>
+          <Button onClick={() => {
+            setShowCommentDialog(false);
+            setNewComment('');
+            setSelectedPostId(null);
+          }}>
             Cancel
           </Button>
           <Button 
-            onClick={() => {
-              // Here you would typically send the comment to your backend
-              setShowCommentDialog(false);
-            }}
+            onClick={handleAddComment}
             variant="contained"
             style={{ backgroundColor: 'var(--accent-color)' }}
+            disabled={!newComment.trim()}
           >
             Post Comment
           </Button>

@@ -1,11 +1,16 @@
 import { Container, Paper, Typography } from "@material-ui/core";
 
 import React from "react";
+import { useParams } from "react-router-dom";
 import CommonHeader from "../../components/Common/CommonHeader";
 import Styles from "./CourseInfo.module.css";
 import NoticeToggle from "./NoticeToggle/NoticeToggle";
 
 const CourseInfo = () => {
+  const { courseId } = useParams();
+  
+  console.log('CourseInfo - courseId:', courseId);
+  
   return (
     <div>
       <CommonHeader title="ANALYSIS AND DESIGN OF ALGORITHM" />
