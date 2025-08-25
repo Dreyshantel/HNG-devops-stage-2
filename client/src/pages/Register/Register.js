@@ -65,7 +65,7 @@ const Register = () => {
     {
       history.push('/admin-dashboard')
     }
-    else if(user && user.role==="Teacher")
+    else if(user && user.role==="Lecturer")
     {
       history.push('/teacher-dashboard')
     }
@@ -144,7 +144,7 @@ const Register = () => {
                     defaultValue="Student"
                   >
                     <option value="Student">Student</option>
-                    <option value="Teacher">Teacher</option>
+                    <option value="Lecturer">Lecturer</option>
                     <option value="Admin">Admin</option>
                   </Form.Control>
                   <span style={{ color: "red" }}>

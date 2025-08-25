@@ -74,7 +74,7 @@ const StudentTable = () => {
                 Id
               </TableCell>
               <TableCell align="center" className="text-light">
-                Teacher Name
+                Lecturer Name
               </TableCell>
               <TableCell align="center" className="text-light">
                Email

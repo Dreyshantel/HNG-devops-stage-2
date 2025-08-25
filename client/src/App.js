@@ -24,7 +24,7 @@ import TeacherRoute from "./components/PrivateRoute/TeacherRoute";
 import AdminRoute from "./components/PrivateRoute/AdminRoute";
 import AdminCourseInfo from "./pages/Admin/Course/AdminCourseInfo";
 import StudentInfo from "./pages/Admin/Student/StudentInfo";
-import TeacherInfo from "./pages/Admin/Teacher/TeacherInfo";
+import LecturerInfo from "./pages/Admin/Teacher/TeacherInfo";
 import AllCourses from "./pages/All-Courses/AllCourses";
 import NotFound from "./pages/404NotFoud/NotFound";
 import Libray from "./pages/Library/Libray";
@@ -75,9 +75,9 @@ const Routing = () => {
       <AdminRoute exact path="/admin/student-info">
         <StudentInfo />
       </AdminRoute>
-      <AdminRoute exact path="/admin/teacher-info">
-        <TeacherInfo />
-      </AdminRoute>
+              <AdminRoute exact path="/admin/lecturer-info">
+          <LecturerInfo />
+        </AdminRoute>
       <StudentRoute exact path="/messages">
         <Messages />
       </StudentRoute>

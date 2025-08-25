@@ -94,7 +94,7 @@ const Header = () => {
         {user && (
           <ul>
             {
-              user.role==="Teacher" && <> <li>
+              user.role==="Lecturer" && <> <li>
               <NavLink onClick={toggleClose} to="/teacher-dashboard">Dashboard</NavLink>
             </li>
             
@@ -114,7 +114,7 @@ const Header = () => {
               <NavLink onClick={toggleClose} to="/admin/student-info">Student-Info</NavLink>
             </li>
             <li className="admin__toggle__menu">
-              <NavLink onClick={toggleClose} to="/admin/teacher-info">Teacher-Info</NavLink>
+                              <NavLink onClick={toggleClose} to="/admin/lecturer-info">Lecturer-Info</NavLink>
             </li>
             
             </>
@@ -140,7 +140,7 @@ const Header = () => {
             </li>
 
             {
-              user.role==="Teacher" ?   <li className="">
+              user.role==="Lecturer" ?   <li className="">
               <Button
                 onClick={() => {
                   localStorage.clear("user");

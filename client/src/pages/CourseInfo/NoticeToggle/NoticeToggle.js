@@ -54,7 +54,7 @@ const NoticeToggle = ({exp}) => {
                     
                     Icon={NoteAddIcon}
                     title="Course Announcement"
-                    description="General news and announcements from the teachers for the students of the course. Teachers will use this activity to post course updates and students are automatically subscribed to this announcement for quick updates."
+                    description="General news and announcements from the lecturers for the students of the course. Lecturers will use this activity to post course updates and students are automatically subscribed to this announcement for quick updates."
                     />
                     <Divider/>
                     </AccordionDetails>
@@ -64,7 +64,7 @@ const NoticeToggle = ({exp}) => {
                     Icon={MovieFilterIcon}
                     title="
                     Lesson Document (Presentation)File"
-                    description="This is the main material from the teacher on the lesson. This can be a Word Document, PDF, or PowerPoint document. Simply edit this activity and attach the document file in the files section. Teachers may use the description field to provide additional guidelines to students on how to go through the document."
+                    description="This is the main material from the lecturer on the lesson. This can be a Word Document, PDF, or PowerPoint document. Simply edit this activity and attach the document file in the files section. Lecturers may use the description field to provide additional guidelines to students on how to go through the document."
                     />
                     <Divider/>
                     </AccordionDetails>
@@ -90,7 +90,7 @@ const NoticeToggle = ({exp}) => {
                     
                     Icon={InsertCommentIcon}
                     title="Discussion on the Lesson"
-                    description='Use discussion forum to engage students in discussion relevant to the lesson topics. It is good way to engage them in peer studies and help each other out on their learning along with the teacher. There are several forum types. This one is a Q and A discussion forum where students can ask questions and answers one another. The teacher may also provide them feedback on their submission. It is better to create a few discussion threads asking some questions for the students to reply back. To do it, click on "Add a new question" button. Click on edit to change the settings to customize according to need.'
+                    description='Use discussion forum to engage students in discussion relevant to the lesson topics. It is good way to engage them in peer studies and help each other out on their learning along with the lecturer. There are several forum types. This one is a Q and A discussion forum where students can ask questions and answers one another. The lecturer may also provide them feedback on their submission. It is better to create a few discussion threads asking some questions for the students to reply back. To do it, click on "Add a new question" button. Click on edit to change the settings to customize according to need.'
                     />
                     <Divider/>
                   </AccordionDetails>

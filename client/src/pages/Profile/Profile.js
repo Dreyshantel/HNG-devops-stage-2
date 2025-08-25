@@ -317,7 +317,7 @@ const Profile = () => {
                       size="small" 
                       style={{ 
                         backgroundColor: user?.role === 'Admin' ? 'var(--danger-color)' : 
-                                     user?.role === 'Teacher' ? 'var(--warning-color)' : 'var(--success-color)',
+                                     user?.role === 'Lecturer' ? 'var(--warning-color)' : 'var(--success-color)',
                         color: 'white',
                         fontWeight: 'bold'
                       }}

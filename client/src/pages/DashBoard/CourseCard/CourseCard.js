@@ -38,7 +38,7 @@ const CourseCard = ({title,name,id,img}) => {
                     >
                         View Course
                     </Button><br/>
-                    <span>This is a course template which is to be used as the course kit for the teachers.</span>
+                    <span>This is a course template which is to be used as the course kit for the lecturers.</span>
                 </div>
             </div>
         </Link>

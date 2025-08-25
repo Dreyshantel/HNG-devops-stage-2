@@ -2,9 +2,9 @@ import { Paper, Typography } from "@material-ui/core";
 import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import MainSidebar from "../AdminDashboard/MainSidebar/MainSidebar";
-import TeacherTable from "./TeacherTable/TeacherTable";
+import LecturerTable from "./TeacherTable/TeacherTable";
 
-const TeacherInfo = () => {
+const LecturerInfo = () => {
   return (
     <div>
       <Container fluid>
@@ -19,10 +19,10 @@ const TeacherInfo = () => {
                   className="text-center text-primary py-5"
                   variant="h4"
                 >
-                  Teacher-Info
+                  Lecturer-Info
                 </Typography>
               </Paper>
-              <TeacherTable />
+              <LecturerTable />
             </Container>
           </Col>
         </Row>
@@ -31,4 +31,4 @@ const TeacherInfo = () => {
   );
 };
 
-export default TeacherInfo;
+export default LecturerInfo;

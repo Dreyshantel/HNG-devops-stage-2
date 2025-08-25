@@ -30,7 +30,7 @@ const useStyles = makeStyles({
   },
 });
 
-const TeacherTable = () => {
+const LecturerTable = () => {
   const classes = useStyles();
 
   const [data, setData] = useState([]);
@@ -79,7 +79,7 @@ const TeacherTable = () => {
                 Id
               </TableCell>
               <TableCell align="center" className="text-light">
-                Teacher Name
+                Lecturer Name
               </TableCell>
               <TableCell align="center" className="text-light">
                Email
@@ -145,4 +145,4 @@ const TeacherTable = () => {
   );
 };
 
-export default TeacherTable;
+export default LecturerTable;

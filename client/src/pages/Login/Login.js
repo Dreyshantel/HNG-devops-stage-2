@@ -1,5 +1,5 @@
 import Styles from "./login.module.css";
-import { Button, Container, Paper, Typography } from "@material-ui/core";
+import { Button, Container, Paper, Typography, InputAdornment, IconButton, TextField } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { Col, Form, Row } from "react-bootstrap";
 import Alert_Comp from "../../components/Alert/Alert_Comp";
@@ -7,10 +7,13 @@ import Spinner_comp from "../../components/Spinner/Spinner_comp";
 import Toast_Comp from "../../components/Toast/Toast_Comp";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState(false);
@@ -19,6 +22,14 @@ const Login = () => {
   //console.log(user);
 
   const dispatch = useDispatch();
+
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
   const formSubmitHandler = (e) => {
     e.preventDefault();
@@ -59,7 +70,7 @@ const Login = () => {
   useEffect(() => {
     if (user && user.role === "Student") {
       history.push('/')
-    } else if (user && user.role === "Teacher") {
+    } else if (user && user.role === "Lecturer") {
       history.push('/teacher-dashboard')
     } else if (user && user.role === "Admin") {
       history.push('/admin-dashboard')
@@ -100,11 +111,28 @@ const Login = () => {
                 </Form.Group>
                 <Form.Group controlId="formBasicPassword">
                   <Form.Label>Password</Form.Label>
-                  <Form.Control
+                  <TextField
+                    fullWidth
+                    variant="outlined"
+                    size="small"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     placeholder="Password"
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                            edge="end"
+                          >
+                            {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
                   />
                   <span style={{ color: "red" }}>
                     {error && error.password}

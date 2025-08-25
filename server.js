@@ -30,6 +30,11 @@ app.use("/users", require("./routes/userRoute"));
 app.use("/profile", require("./routes/profileRoute"));
 app.use("/enroll-course", require("./routes/enrollRoute"));
 
+// New forum routes
+app.use("/discussions", require("./routes/discussionRoute"));
+app.use("/replies", require("./routes/replyRoute"));
+app.use("/analytics", require("./routes/analyticsRoute"));
+
 // Production deployment
 if (process.env.NODE_ENV == 'production') {
   app.use(express.static('client/build'))
@@ -47,9 +52,27 @@ const server = app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
   console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
   
+  // Initialize WebSocket server after HTTP server starts
+  initializeWebSocketServer();
+  
   // Try to connect to MongoDB after server starts
   connectToMongoDB();
 });
+
+// Initialize WebSocket server
+function initializeWebSocketServer() {
+  try {
+    const WebSocketServer = require('./websocket/websocketServer');
+    const wsServer = new WebSocketServer(server);
+    console.log('✅ WebSocket server initialized successfully');
+    
+    // Make WebSocket server available globally for controllers
+    global.wsServer = wsServer;
+  } catch (error) {
+    console.error('❌ Failed to initialize WebSocket server:', error.message);
+    console.warn('📝 Real-time features will not be available');
+  }
+}
 
 // Handle server errors
 server.on('error', (error) => {

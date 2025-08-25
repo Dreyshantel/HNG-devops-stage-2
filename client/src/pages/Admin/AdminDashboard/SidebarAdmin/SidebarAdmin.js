@@ -23,11 +23,11 @@ const SidebarAdmin = () => {
         Icon={GroupIcon}
       />
       <Sidebar
-        title="Teacher"
-        link="/admin/teacher-info"
+        title="Lecturer"
+        link="/admin/lecturer-info"
         Icon={PersonIcon}
       />
-      <Sidebar title="Logout" link="/admin/teacher-info" Icon={ExitToAppIcon} />
+      <Sidebar title="Logout" link="/logout" Icon={ExitToAppIcon} />
     </div>
   );
 };

@@ -17,7 +17,7 @@ module.exports.getStudent__controller=async (req,res,next)=>{
 
 module.exports.getTeacher__controller=async (req,res,next)=>{
     try {
-        const teacherInfo=await UserModel.find({role:"Teacher"})
+        const teacherInfo=await UserModel.find({role:"Lecturer"})
         return res.status(200).json({
             teacherInfo
         })

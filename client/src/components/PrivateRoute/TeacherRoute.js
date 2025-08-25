@@ -10,7 +10,7 @@ const TeacherRoute = ({ children, ...rest }) => {
         <Route
   {...rest}
   render={({ location }) =>
-    user && user.role==="Teacher" ? (
+    user && user.role==="Lecturer" ? (
       children
     ) : (
       <Redirect
